@@ -9,3 +9,5 @@
 # User.create(
 #     first_name: "John", last_name: "Snow", email:"john@snow.com", password:"password"
 # )
+
+J = User.find(1)
