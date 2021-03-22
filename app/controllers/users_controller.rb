@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
     # GET /users
     def index
-        @users = User.all.with_attached_document
+        @users = User.all.with_attached_avatar
 
         render json: @users
     end
