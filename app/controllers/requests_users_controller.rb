@@ -91,12 +91,12 @@ class RequestsUsersController < ApplicationController
     private
         # Use callbacks to share common setup or constraints between actions.
         def set_requests_user
-        @requests_user = RequestsUser.find(params[:id])
+            @requests_user = RequestsUser.find(params[:id])
         end
 
         # Only allow a list of trusted parameters through.
         def requests_user_params
         # params.fetch(:requests_user, {})
-        params.require(:requests_user).permit(:request_id, :user_id, :fulfilled)
+            params.require(:requests_user).permit(:request_id, :user_id, :fulfilled)
         end
 end
