@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+ html,
+ body {
+   height: 100%;
+ }
+ .bg-image {
+   background-image: linear-gradient(#00000061, #0000002e), url("01.jpg");
+   background-position: center;
+   background-size: cover;
+ }
