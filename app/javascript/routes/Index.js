@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import Home from "../components/Home";
+import Login from "../components/Login";
+import SignUp from "../components/Signup"
 // import Navbar from "../components/Navbar";
 import { AuthContext } from "../components/App";
 
@@ -38,11 +40,18 @@ function Routes() {
               SIGN UP
             </Link>
           )}
-
         </nav>
       </div>
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/sign_up">
+          <SignUp />
+        </Route>
       </Switch>
     </Router>
   );
