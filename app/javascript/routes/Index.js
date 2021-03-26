@@ -8,7 +8,7 @@ import { AuthContext } from "../components/App";
 
 function Routes() {
   const { state } = useContext(AuthContext);
-  console.log(state.isAuthenticated);
+  // console.log(state.isAuthenticated);
   return (
     <Router>
       <div className="md:flex justify-between text-blue-500 p-6">

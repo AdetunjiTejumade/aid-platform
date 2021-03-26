@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { Link } from "react-router-dom"
 function SignUp() {
     return (
         <div className="pb-12">
@@ -136,7 +136,7 @@ function SignUp() {
         </button>
         <div className="text-right">
           <p className="">
-            {/* Already have an account?<Link to={{pathname: '/login'}}>Login</Link> */}
+            Already have an account?<Link to="/login">Login</Link>
           </p>
           
         </div>
