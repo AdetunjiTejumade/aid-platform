@@ -26,11 +26,9 @@ class UsersController < ApplicationController
 
       # POST /users.json
     def create
-        
         @user = User.new(user_params)
         
         if @user.save
-
             auth_token = Knock::AuthToken.new payload: { sub: @user.id }
             render json: {user: @user, token: auth_token} , status: :created
         

@@ -19,22 +19,22 @@ const reducer = (state, action) => {
         user: action.payload.user,
         token: action.payload.token,
       };
+    case "SIGNUP":
+      console.log("hey im ma do it");
+      localStorage.setItem("user", JSON.stringify(action.payload));
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: action.payload.user,
+        token: action.payload.token,
+      };
     case "LOGOUT":
       localStorage.clear();
       return {
         ...state,
         isAuthenticated: false,
         user: null,
-      };
-    case "SIGNUP":
-      console.log("hey im ma do it");
-      localStorage.setItem("user", JSON.stringify(action.payload));
-      localStorage.setItem("token", JSON.stringify(action.payload.jwt));
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload.user,
-        token: action.payload.token,
       };
 
     default:
