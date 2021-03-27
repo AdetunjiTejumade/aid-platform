@@ -22,7 +22,7 @@ const reducer = (state, action) => {
     case "SIGNUP":
       console.log("hey im ma do it");
       localStorage.setItem("user", JSON.stringify(action.payload));
-      localStorage.setItem("token", JSON.stringify(action.payload.token));
+      localStorage.setItem("token", JSON.stringify(action.payload.token.token));
       return {
         ...state,
         isAuthenticated: true,
