@@ -34,18 +34,22 @@ function SignUp() {
       });
     }
   };
-  //   rails/active_storage/direct_uploads
+  //   rails/active_storage/direct_uploads //TODO fix document upload issue should be in the method redo
   const uploadFile = (file, user) => {
     const upload = new DirectUpload(
       file,
-      "http://localhost:3000/active_storage/direct_uploads"
+      "http://localhost:3000/rails/active_storage/direct_uploads"
     );
+    // const upload = new DirectUpload(
+    //   file,
+    //   "http://localhost:3000/rails/active_storage/direct_uploads"
+    // );
     upload.create((error, blob) => {
       if (error) {
         console.log(error);
       } else {
         axios
-          .put(`http://localhost:3000/users/${user.user.id}`, {
+          .patch(`http://localhost:3000/users/${user.user.id}`, {
             auth: {
               avatar: blob.signed_id,
             },
@@ -71,14 +75,25 @@ function SignUp() {
           password: data.password,
         },
       })
+      .then((res) => {
+        if (res.status === 201) {
+          return res;
+        }
+        throw res;
+      })
+      .then((resJson) => {
+        console.log("haha");
+        console.log(resJson);
+        uploadFile(data.document, resJson.data);
+      })
       .then((response) => {
         dispatch({
           type: "SIGNUP",
           payload: response.data,
         });
       })
-      .then((res) => uploadFile(data.document, res.data))
       .catch((error) => {
+        console.log(error);
         setData({
           ...data,
           isSubmitting: false,
