@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Link , useHistory} from "react-router-dom";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import SignUp from "../components/Signup"
@@ -7,8 +7,15 @@ import SignUp from "../components/Signup"
 import { AuthContext } from "../components/App";
 
 function Routes() {
-  const { state } = useContext(AuthContext);
-  // console.log(state.isAuthenticated);
+  const history = useHistory();
+  const { state, dispatch } = useContext(AuthContext);
+  
+  const Logout = () => {
+    dispatch({
+      type: "LOGOUT",
+    });
+    // history.push("/");
+  };
   return (
     <Router>
       <div className="md:flex justify-between text-blue-500 p-6">
@@ -29,7 +36,7 @@ function Routes() {
             Request Helps
           </Link>
           {state.isAuthenticated ? (
-            <Link to="/logout" className="bg-blue-500 text-white p-6 md:inline">
+            <Link to="/logout" onClick={Logout} className="bg-blue-500 text-white p-6 md:inline">
               Log out
             </Link>
           ) : (

@@ -37,12 +37,20 @@ function Login() {
           password: data.password,
         },
       })
+      .then((res) => {
+        if (res.status === 201) {
+          return res;
+        }
+        throw res;
+      })
       .then((resJson) => {
-        console.log(resJson);
         dispatch({
           type: "LOGIN",
           payload: resJson.data
         });
+        setData({
+          isSubmitting: false,
+        })
       })
       .catch((error) => {
         setData({
