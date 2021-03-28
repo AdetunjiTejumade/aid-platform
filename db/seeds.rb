@@ -12,7 +12,7 @@
 
 J = User.find(1)
 
-j.avatar.attach(
+J.avatar.attach(
     io: File.open('./public/avatar/Untitled.png'),
     filename: 'Untitled.png',
     content_type: 'application/png'

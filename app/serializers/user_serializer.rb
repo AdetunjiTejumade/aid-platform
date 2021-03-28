@@ -12,7 +12,7 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def avatar_url 
-     url_for(object.avatar)
+     url_for(object.avatar) 
 
   end
   

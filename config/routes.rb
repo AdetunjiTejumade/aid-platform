@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       post '/signup', to: 'users#create'
 
   end
-  match '*path', to: 'pages#index', via: :all
+  # match '*path', to: 'pages#index', via: :all
   resources :users
   resources :requests
   mount ActionCable.server => '/cable'
