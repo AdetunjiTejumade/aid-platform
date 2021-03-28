@@ -10,10 +10,16 @@ const initialState = {
   user: null,
   token: null,
   currentUser: null,
+  allRequests:null
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "ALLREQUESTS":
+      return {
+        ...state,
+        allRequests: action.payload,
+      }
     case "CURRENTUSER":
       return {
         ...state,
@@ -60,8 +66,22 @@ function App(props) {
 
   useEffect(() => {
     getCurrentUser();
+    getAllRequests();
   }, []);
 
+  const getAllRequests = async () => {
+    axios.get("http://localhost:3000/requests", {
+      headers: {
+        Authorization: `Basic ${token}`,
+      },
+    }).then(res => {
+      console.log(res.data);
+      dispatch({
+        type: "ALLREQUESTS",
+        payload: res.data,
+      });
+    })
+  };
   const getCurrentUser = async () => {
     axios
       .get("http://localhost:3000/users", {

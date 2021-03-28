@@ -5,7 +5,6 @@ import { AuthContext } from "./App";
 
 function RequestForm() {
   const {state, dispatch } = React.useContext(AuthContext);
-  console.log(state);
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });

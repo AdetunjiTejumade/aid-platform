@@ -4,6 +4,7 @@ import Home from "../components/Home";
 import Login from "../components/Login";
 import SignUp from "../components/Signup";
 import RequestForm from "../components/NewRequest";
+import ListRequest from "../components/ListRequests.js"
 // import Navbar from "../components/Navbar";
 import { AuthContext } from "../components/App";
 
@@ -33,7 +34,7 @@ function Routes() {
             Add Request
           </Link>
 
-          <Link to="/request_helps" className="pr-5 uppercase block md:inline">
+          <Link to="/help_requests" className="pr-5 uppercase block md:inline">
             Request Helps
           </Link>
           {state.isAuthenticated ? (
@@ -62,6 +63,9 @@ function Routes() {
         </Route>
         <Route path="/new_request">
           <RequestForm />
+        </Route>
+        <Route path="/help_requests">
+          <ListRequest />
         </Route>
       </Switch>
     </Router>
