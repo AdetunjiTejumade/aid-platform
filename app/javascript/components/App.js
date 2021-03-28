@@ -7,12 +7,15 @@ const initialState = {
   isAuthenticated: localStorage.getItem("token") || false,
   user: null,
   token: null,
+  //currentUser: null
 };
+
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
-      localStorage.setItem("user", JSON.stringify(action.payload));
-      localStorage.setItem("token", JSON.stringify(action.payload.jwt));
+      localStorage.setItem("user", JSON.stringify(action.payload.values));
+      localStorage.setItem("token", JSON.stringify(action.payload.data.jwt));
       return {
         ...state,
         isAuthenticated: true,
@@ -21,8 +24,8 @@ const reducer = (state, action) => {
       };
     case "SIGNUP":
       console.log("hey im ma do it");
-      localStorage.setItem("user", JSON.stringify(action.payload));
-      localStorage.setItem("token", JSON.stringify(action.payload.token.token));
+      localStorage.setItem("user", JSON.stringify(action.payload.values));
+      localStorage.setItem("token", JSON.stringify(action.payload.data.token.token));
       return {
         ...state,
         isAuthenticated: true,

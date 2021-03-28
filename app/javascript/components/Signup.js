@@ -59,6 +59,13 @@ function SignUp() {
       }
     });
   };
+  const values = {
+    first_name: data.firstname,
+    last_name: data.lastname,
+    email: data.email,
+    password: data.password,
+  };
+
   const onSubmit = () => {
     setData({
       ...data,
@@ -81,15 +88,16 @@ function SignUp() {
         }
         throw res;
       })
-      .then((resJson) => {
-        console.log("haha");
-        console.log(resJson);
-        uploadFile(data.document, resJson.data);
-      })
+      // .then((resJson) => {
+      //   console.log("haha");
+      //   console.log(resJson);
+      //   uploadFile(data.document, resJson.data);
+      // })
       .then((response) => {
+        let a = response.data;
         dispatch({
           type: "SIGNUP",
-          payload: response.data,
+          payload: { values: values, data: response.data },
         });
       })
       .catch((error) => {

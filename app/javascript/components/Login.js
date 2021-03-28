@@ -21,7 +21,10 @@ function Login() {
       [event.target.name]: event.target.value,
     });
   };
-
+  const values = {
+    email: data.email,
+    password: data.password,
+  }
   const onSubmit = (event) => {
     // event.preventDefault();
     setData({
@@ -46,7 +49,11 @@ function Login() {
       .then((resJson) => {
         dispatch({
           type: "LOGIN",
-          payload: resJson.data
+         // payload: resJson.data
+         payload:{
+          values: values, 
+          data: resJson.data
+         }
         });
         setData({
           isSubmitting: false,
