@@ -1,17 +1,24 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Route, Switch, Link , useHistory} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+  useHistory,
+} from "react-router-dom";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import SignUp from "../components/Signup";
 import RequestForm from "../components/NewRequest";
-import ListRequest from "../components/ListRequests.js"
+import ListRequest from "../components/ListRequests";
+import RequestDetail from "../components/RequestDetail";
 // import Navbar from "../components/Navbar";
 import { AuthContext } from "../components/App";
 
 function Routes() {
   const history = useHistory();
   const { state, dispatch } = useContext(AuthContext);
-  
+
   const Logout = () => {
     dispatch({
       type: "LOGOUT",
@@ -38,7 +45,11 @@ function Routes() {
             Request Helps
           </Link>
           {state.isAuthenticated ? (
-            <Link to="/logout" onClick={Logout} className="bg-blue-500 text-white p-6 md:inline">
+            <Link
+              to="/logout"
+              onClick={Logout}
+              className="bg-blue-500 text-white p-6 md:inline"
+            >
               Log out
             </Link>
           ) : (
@@ -64,8 +75,11 @@ function Routes() {
         <Route path="/new_request">
           <RequestForm />
         </Route>
-        <Route path="/help_requests">
+        <Route exact path="/help_requests">
           <ListRequest />
+        </Route>
+        <Route exact path="/help_requests/:requestId">
+          <RequestDetail />
         </Route>
       </Switch>
     </Router>

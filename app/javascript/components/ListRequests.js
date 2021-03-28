@@ -24,7 +24,7 @@ function ListRequest() {
         if (currentUser === user_id) {
           return (
             <div className="mb-12" key={index}>
-              <Link to={`/request_helps/${id}`}>{title}</Link>
+              <Link to={`/help_requests/${id}`}>{title}</Link>
               <p>{description}</p>
             </div>
           );
@@ -43,7 +43,7 @@ function ListRequest() {
         if (currentUser !== user_id) {
           return (
             <div className="mb-12" key={index}>
-              <Link to={`/request_helps/${id}`}>{title}</Link>
+              <Link to={`/help_requests/${id}`}>{title}</Link>
               <p>{description}</p>
             </div>
           );
