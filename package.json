@@ -8,6 +8,7 @@
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.3.0",
     "@tailwindcss/postcss7-compat": "^2.0.4",
+    "actioncable": "^5.2.5",
     "activestorage": "^5.2.5",
     "autoprefixer": "9",
     "axios": "^0.21.1",

@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   root 'pages#index'
 
   resources :conversations
-
   resources :messages
+  mount ActionCable.server => '/cable'
+
   resources :requests_users
   scope '/auth' do
       post '/signin', to: 'user_token#create'

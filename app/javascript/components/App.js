@@ -1,25 +1,55 @@
 import React, { useState, useEffect, createContext } from "react";
 import Routes from "../routes/Index";
 import axios from "axios";
+
 // import { AuthContext } from "../contexts/auth";
 export const AuthContext = createContext();
-export const UserLocation = createContext();
+//export const UserLocation = createContext();
+export const RoomDataContext = createContext();
+export const CurrentRoomContext = createContext();
+
+const [allRooms, setAllRooms] = useState([]);
+const [currentRoom, setCurrentRoom] = useState({
+  room: {},
+  users: [],
+  messages: [],
+});
 
 const initialState = {
   isAuthenticated: localStorage.getItem("token") || false,
   user: null,
   token: null,
   currentUser: null,
-  allRequests:null
+  allRequests: null,
+  allVolunteers: null,
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
+    // case "ALLROOMS":
+    //   return {
+    //     ...state,
+    //     allRooms: action.payload,
+    //   };
+    // case "CURRENTROOM":
+    //   return {
+    //     ...state,
+    //     currentRoom: {
+    //       room: action.payload,
+    //      // messages: action.payload.attributes.messages,
+    //       users: action.payload.attributes,
+    //     },
+    //   };
+    case "ALLVOLUNTEERS":
+      return {
+        ...state,
+        allVolunteers: action.payload,
+      };
     case "ALLREQUESTS":
       return {
         ...state,
         allRequests: action.payload,
-      }
+      };
     case "CURRENTUSER":
       return {
         ...state,
@@ -67,21 +97,63 @@ function App(props) {
   useEffect(() => {
     getCurrentUser();
     getAllRequests();
-  }, []);
-
-  const getAllRequests = async () => {
-    axios.get("http://localhost:3000/requests", {
-      headers: {
-        Authorization: `Basic ${token}`,
-      },
-    }).then(res => {
-      console.log(res.data);
-      dispatch({
-        type: "ALLREQUESTS",
-        payload: res.data,
+    getAllVolunteers();
+    getAllRooms();
+  }, [initialState]);
+  const getAllRooms = async () => {
+    axios
+      .get(`http://localhost:3000/conversations/`, {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
+      .then((res) => {
+        setAllRooms(res.data);
       });
-    })
   };
+const getRoomData = (id) => {
+  fetch(`http://localhost:3000/conversations/${id}`)
+  .then(response => response.json())
+  .then(result => {
+    setCurrentRoom({
+      currentRoom: {
+        room: result.data,
+        users: result.data.attributes.users,
+        messages: result.data.attributes.messages
+      }
+    })
+  })
+}
+  const getAllVolunteers = async () => {
+    axios
+      .get("http://localhost:3000/requests_users", {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({
+          type: "ALLVOLUNTEERS",
+          payload: res.data,
+        });
+      });
+  };
+  const getAllRequests = async () => {
+    axios
+      .get("http://localhost:3000/requests", {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        dispatch({
+          type: "ALLREQUESTS",
+          payload: res.data,
+        });
+      });
+  };
+
   const getCurrentUser = async () => {
     axios
       .get("http://localhost:3000/users", {
@@ -98,6 +170,15 @@ function App(props) {
             type: "CURRENTUSER",
             payload: curUser,
           });
+          setCurrentRoom({
+            room: {},
+            messages: [],
+            users: [curUser, ...currentRoom.users],
+          });
+          // dispatch({
+          //   type: "CURRENTROOM",
+          //   payload: curUser,
+          // });
         }
         //console.log(res);
       });
@@ -105,7 +186,11 @@ function App(props) {
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
-      <Routes />
+      <AllRoomContext value={{ allRooms, setAllRooms }}>
+        <RoomDataContext value={{ currentRoom, setCurrentRoom }}>
+          <Routes getRoomData={getRoomData}/>
+        </RoomDataContext>
+      </AllRoomContext>
     </AuthContext.Provider>
   );
 }

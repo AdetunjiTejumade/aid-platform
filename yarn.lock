@@ -1221,6 +1221,11 @@ acorn@^7.0.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
+actioncable@^5.2.5:
+  version "5.2.5"
+  resolved "https://registry.yarnpkg.com/actioncable/-/actioncable-5.2.5.tgz#f099d8f4253df241fc5648cffca80e031782c0b1"
+  integrity sha512-xG063yBA28TgArnnN580vveA+oOLpf97uk/NjWhoZe7PW+0ti/BuJFEo0+HIf3eRz2HPIUMIcAV2h2xPp/ewqQ==
+
 activestorage@^5.2.5:
   version "5.2.5"
   resolved "https://registry.yarnpkg.com/activestorage/-/activestorage-5.2.5.tgz#433e58dbc8dfba28528ec9edfaa583dfa641e312"

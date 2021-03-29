@@ -12,10 +12,11 @@ import SignUp from "../components/Signup";
 import RequestForm from "../components/NewRequest";
 import ListRequest from "../components/ListRequests";
 import RequestDetail from "../components/RequestDetail";
+import ConversationShow from "../components/ConversationShow";
 // import Navbar from "../components/Navbar";
 import { AuthContext } from "../components/App";
 
-function Routes() {
+function Routes(props) {
   const history = useHistory();
   const { state, dispatch } = useContext(AuthContext);
 
@@ -80,6 +81,9 @@ function Routes() {
         </Route>
         <Route exact path="/help_requests/:requestId">
           <RequestDetail />
+        </Route>
+        <Route exact path="/conversations/:id">
+          <ConversationShow cableApp={props.cableApp} getRoomData={getRoomData}/>
         </Route>
       </Switch>
     </Router>
