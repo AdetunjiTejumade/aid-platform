@@ -8,12 +8,12 @@ export const AuthContext = createContext();
 export const RoomDataContext = createContext();
 export const CurrentRoomContext = createContext();
 
-const [allRooms, setAllRooms] = useState([]);
-const [currentRoom, setCurrentRoom] = useState({
-  room: {},
-  users: [],
-  messages: [],
-});
+// const [allRooms, setAllRooms] = useState([]);
+// const [currentRoom, setCurrentRoom] = useState({
+//   room: {},
+//   users: [],
+//   messages: [],
+// });
 
 const initialState = {
   isAuthenticated: localStorage.getItem("token") || false,
@@ -111,19 +111,19 @@ function App(props) {
         setAllRooms(res.data);
       });
   };
-const getRoomData = (id) => {
-  fetch(`http://localhost:3000/conversations/${id}`)
-  .then(response => response.json())
-  .then(result => {
-    setCurrentRoom({
-      currentRoom: {
-        room: result.data,
-        users: result.data.attributes.users,
-        messages: result.data.attributes.messages
-      }
-    })
-  })
-}
+  const getRoomData = (id) => {
+    fetch(`http://localhost:3000/conversations/${id}`)
+      .then((response) => response.json())
+      .then((result) => {
+        setCurrentRoom({
+          currentRoom: {
+            room: result.data,
+            users: result.data.attributes.users,
+            messages: result.data.attributes.messages,
+          },
+        });
+      });
+  };
   const getAllVolunteers = async () => {
     axios
       .get("http://localhost:3000/requests_users", {
@@ -186,11 +186,11 @@ const getRoomData = (id) => {
 
   return (
     <AuthContext.Provider value={{ state, dispatch }}>
-      <AllRoomContext value={{ allRooms, setAllRooms }}>
-        <RoomDataContext value={{ currentRoom, setCurrentRoom }}>
-          <Routes getRoomData={getRoomData}/>
-        </RoomDataContext>
-      </AllRoomContext>
+      {/* <AllRoomContext value={{ allRooms, setAllRooms }}> */}
+      {/* <RoomDataContext value={{ currentRoom, setCurrentRoom }}> */}
+      <Routes getRoomData={getRoomData} />
+      {/* </RoomDataContext> */}
+      {/* </AllRoomContext> */}
     </AuthContext.Provider>
   );
 }

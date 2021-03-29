@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "./App";
 import axios from "axios";
-import ConversationItem from "./ConversationItem";
 
 function RequestDetail() {
   const { state, dispatch } = React.useContext(AuthContext);
