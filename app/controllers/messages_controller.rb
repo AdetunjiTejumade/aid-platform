@@ -30,13 +30,13 @@ class MessagesController < ApplicationController
   
   
       @message = Message.new(message_params)
-      @conversation = conversation.find(message_params[:conversation_id])
+      @conversation = Conversation.find(message_params[:conversation_id])
   
   
   
         if @message.save
          
-           conversationsChannel.broadcast_to(@conversation, {
+           ConversationChannel.broadcast_to(@conversation, {
             conversation: @conversation,
             users: @conversation.users,
             messages: @conversation.messages

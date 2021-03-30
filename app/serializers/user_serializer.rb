@@ -15,5 +15,5 @@ class UserSerializer < ActiveModel::Serializer
      url_for(object.avatar) 
 
   end
-  
+  has_many :conversations, through: :messages
 end

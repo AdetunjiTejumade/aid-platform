@@ -9,7 +9,7 @@ const CableApp = {}
 CableApp.cable = actionCable.createConsumer('ws:://localhost:3000/cable')
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <App CableApp={CableApp} />,
+    <App cableApp={CableApp} />,
     document.getElementById("root"),
   );
 })

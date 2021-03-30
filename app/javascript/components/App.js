@@ -2,10 +2,13 @@ import React, { useState, useEffect, createContext } from "react";
 import Routes from "../routes/Index";
 import axios from "axios";
 
+
 // import { AuthContext } from "../contexts/auth";
 export const AuthContext = createContext();
+export const RequestOwnerIdContext = createContext();
+export const RequestOwnerContext = createContext();
 //export const UserLocation = createContext();
-export const RoomDataContext = createContext();
+
 export const CurrentRoomContext = createContext();
 
 // const [allRooms, setAllRooms] = useState([]);
@@ -90,40 +93,19 @@ const reducer = (state, action) => {
       return state;
   }
 };
-function App(props) {
+function App({ cableApp }) {
+  //console.log(props.cableApp);
   const [state, dispatch] = React.useReducer(reducer, initialState);
+  const [chatReceiverId, setChatReceiverId] = useState(null);
+  const [requestOwner, setRequestOwner] = useState(null);
   const token = JSON.parse(localStorage.getItem("token"));
 
   useEffect(() => {
     getCurrentUser();
     getAllRequests();
     getAllVolunteers();
-    getAllRooms();
   }, [initialState]);
-  const getAllRooms = async () => {
-    axios
-      .get(`http://localhost:3000/conversations/`, {
-        headers: {
-          Authorization: `Basic ${token}`,
-        },
-      })
-      .then((res) => {
-        setAllRooms(res.data);
-      });
-  };
-  const getRoomData = (id) => {
-    fetch(`http://localhost:3000/conversations/${id}`)
-      .then((response) => response.json())
-      .then((result) => {
-        setCurrentRoom({
-          currentRoom: {
-            room: result.data,
-            users: result.data.attributes.users,
-            messages: result.data.attributes.messages,
-          },
-        });
-      });
-  };
+
   const getAllVolunteers = async () => {
     axios
       .get("http://localhost:3000/requests_users", {
@@ -146,7 +128,7 @@ function App(props) {
         },
       })
       .then((res) => {
-        console.log(res.data);
+        //console.log(res.data);
         dispatch({
           type: "ALLREQUESTS",
           payload: res.data,
@@ -165,22 +147,17 @@ function App(props) {
         if (state.isAuthentication !== "") {
           const user = JSON.parse(localStorage.getItem("user"));
           const curUser = res.data.find((item) => item.email === user.email);
-          console.log(curUser);
+          //console.log(curUser);
           dispatch({
             type: "CURRENTUSER",
             payload: curUser,
-          });
-          setCurrentRoom({
-            room: {},
-            messages: [],
-            users: [curUser, ...currentRoom.users],
           });
           // dispatch({
           //   type: "CURRENTROOM",
           //   payload: curUser,
           // });
         }
-        //console.log(res);
+        //console.log(res); console.log(props.cableApp);
       });
   };
 
@@ -188,7 +165,14 @@ function App(props) {
     <AuthContext.Provider value={{ state, dispatch }}>
       {/* <AllRoomContext value={{ allRooms, setAllRooms }}> */}
       {/* <RoomDataContext value={{ currentRoom, setCurrentRoom }}> */}
-      <Routes getRoomData={getRoomData} />
+      <RequestOwnerIdContext.Provider
+        value={{ chatReceiverId, setChatReceiverId }}
+      >
+        <RequestOwnerContext.Provider value={{ requestOwner, setRequestOwner }}>
+          <Routes cableApp={cableApp} />
+        </RequestOwnerContext.Provider>
+      </RequestOwnerIdContext.Provider>
+
       {/* </RoomDataContext> */}
       {/* </AllRoomContext> */}
     </AuthContext.Provider>
