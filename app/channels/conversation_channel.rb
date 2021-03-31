@@ -1,7 +1,7 @@
 class ConversationChannel < ApplicationCable::Channel
   def subscribed
-    @conversations = Conversation.find_by(id: params[:conversations])
-    stream_for @conversations
+    @conversation = Conversation.find_by(id: params[:conversations])
+    stream_for @conversation
   end
 
   def unsubscribed
@@ -9,6 +9,6 @@ class ConversationChannel < ApplicationCable::Channel
   end
 
   def received(data)
-    ConversationssChannel.broadcast_to(@conversations, {conversations: @conversations, users: @conversations.users, messages: @conversations.messages})
+    ConversationChannel.broadcast_to(@conversations, {conversations: @conversations, users: @conversations.users, messages: @conversations.messages})
   end
 end

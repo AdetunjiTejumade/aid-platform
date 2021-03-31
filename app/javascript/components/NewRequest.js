@@ -1,60 +1,105 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+  useLayoutEffect
+} from "react";
+import {
+  UserLatContext,
+  UserLngContext,
+  AllRequestContext,
+  UserIdContext,
+  RequestOwnerContext,
+  ReqOwnerFirstNameContext,
+  SelectedReqDescContext,
+  AllRoomContext,
+  RequestOwnerIdContext,
+  ChatRoomIdContext,
+  ErrorContext,
+  PannedMapContext,
+  RequestFormContext,
+  SelectedRequestContext,
+  CurrentVolunteerContext,
+} from "../components/contexts/ContextFile";
+
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  LayersControl,
+} from "react-leaflet";
 import axios from "axios";
-import { AuthContext } from "./App";
+import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function RequestForm() {
-  const {state, dispatch } = React.useContext(AuthContext);
+  let { error, setError } = useContext(ErrorContext);
+
+  const { allRequest, setAllRequest } = useContext(AllRequestContext);
+
+  const { userId } = useContext(UserIdContext);
+
+  const [title, setTitle] = useState("");
+  const [requestType, setRequestType] = useState("one_time_task");
+  const [address, setAddress] = useState("");
+  const [fulfilled, setFulfilled] = useState();
+  const [description, setDescription] = useState("");
+  const [lat, setLat] = useState("");
+  const [lng, setLng] = useState("");
+
+  const [descriptionErr, setDescriptionErr] = useState([]);
+
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [address, setAddress] = useState("");
-  const [requestType, setRequestType] = useState("one_time_task");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
-  const [fulfilled, setFulfilled] = useState();
-  const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(false);
+  const handleType = (e) => {
+    setRequestType(e.target.value);
+  };
 
-//   const token = JSON.parse(localStorage.getItem("token"));
-//   useEffect(() => {
-//     getCurrentUser()
-//   }, [])
-//   const getCurrentUser = async () => {
-//     axios.get("http://localhost:3000/users", {
-//       headers: {
-//         Authorization: `Basic ${token}`,
-//       },
-//     }).then(res => {
-//       if(state.isAuthentication){
-//         const user = JSON.parse(localStorage.getItem("user"));
-//         const curUser = response.data.find((item) => item.email === user.email)
-        
-//         setCurrentUser(curUser)
-//       }
-//       console.log(res);
-//     })
-// };
-  // HEADERS
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
+  };
 
-  // const header = JSON.parse(localStorage.getItem("header"));
+  const handleFulfilled = (e) => {
+    setFulfilled(e.target.value)
+  }
+  const handleTitle = (e) => {
+    setFulfilled(e.target.value)
+  }
+
   const token = JSON.parse(localStorage.getItem("token"));
-  const sendRequest = (params) => {
-    axios
-      .post("http://localhost:3000/requests", params, { 
+  const sendRequest = async (params) => {
+    setLoading(true);
+    let res = axios
+      .post("http://localhost:3000/requests", params, {
         headers: {
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        console.log(response);
+        let tempRequest = [response.data, ...allRequest];
+        setAllRequest(tempRequest);
+        setDescription("");
+        setRequestType("");
+
+        setError(false);
+        setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        setError(error.message || error.statusText);
+        setLoading(false);
       });
+    return res;
   };
+
   const firstUpdate = useRef(true);
   useLayoutEffect(() => {
     if (firstUpdate.current) {
@@ -69,10 +114,11 @@ function RequestForm() {
       lat,
       lng,
       fulfilled,
-      user_id : state.currentUser.id,
+      user_id: userId,
     };
-    sendRequest(params)
+    sendRequest(params);
   }, [lng]);
+
   //41,aina aladi street,Alagbado,lagos,nigeria We need volunteers to help us in cleaning the community center
   const onSubmit = () => {
     const getCoordinates = () => {
@@ -198,11 +244,13 @@ function RequestForm() {
             onChange={(e) => setFulfilled(false)}
           />
         </div>
+        <div>{error && <span className="form-error">{error}</span>}</div>
+
         <button
           type="submit"
           className="block px-14 font-*semibold outline-none py-4 bg-blue-500 text-white rounded"
         >
-          Submit
+          {loading ? "Loading..." : "Submit"}
         </button>
       </form>
     </div>

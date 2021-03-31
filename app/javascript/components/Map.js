@@ -1,5 +1,29 @@
-import React, { useState, useEffect, useContext } from "react";
-import { AuthContext, RequestOwnerIdContext, RequestOwnerContext } from "./App";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+  useLayoutEffect
+} from "react";
+import {
+  UserLatContext,
+  UserLngContext,
+  AllRequestContext,
+  UserIdContext,
+  RequestOwnerContext,
+  ReqOwnerFirstNameContext,
+  SelectedReqDescContext,
+  AllRoomContext,
+  RequestOwnerIdContext,
+  ChatRoomIdContext,
+  ErrorContext,
+  PannedMapContext,
+  RequestFormContext,
+  SelectedRequestContext,
+  CurrentVolunteerContext,
+} from "../components/contexts/ContextFile";
+
 import {
   MapContainer,
   TileLayer,
@@ -8,70 +32,110 @@ import {
   LayersControl,
 } from "react-leaflet";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-function Map({ allRooms }) {
-  //console.log(allRooms);
-  const { state, dispatch } = React.useContext(AuthContext);
-  let { setChatReceiverId } = useContext(RequestOwnerIdContext);
-  const { requestOwner, setRequestOwner } = useContext(RequestOwnerContext);
-  const [currentLatitude, setCurrentLatitude] = useState("");
-  const [currentLongitude, setCurrentLongitude] = useState("");
-  const [requestId, setRequestId] = useState(null);
-  const [reqDescription, setReqDescription] = useState("");
-  const [items, setItems] = useState([]);
+function Map() {
+  const { userLat } = useContext(UserLatContext);
+  const { userLng } = useContext(UserLngContext);
+  const { allRequest } = useContext(AllRequestContext);
+  const { userId } = useContext(UserIdContext);
+
   const url = "http://localhost:3000/requests/";
   //const header = JSON.parse(localStorage.getItem("header"));
-  const token = JSON.parse(localStorage.getItem("token"));
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition((position) => {
-        setCurrentLatitude(position.coords.latitude);
-        setCurrentLongitude(position.coords.longitude);
-        // console.log("Latitude is :", position.coords.latitude);
-        // console.log("Longitude is :", position.coords.longitude);
-      });
-    }
-    return () => {
-      setCurrentLatitude("");
-      setCurrentLongitude("");
-    };
-  }, []);
+  let history = useHistory();
 
-  useEffect(() => {
-    axios
-      .get(url, {
-        headers: {
-          Authorization: `Basic ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((result) => {
-        setItems(result.data);
-        console.log(result.data);
-      });
-  }, []);
+  const { selectedRequest, setSelectedRequest } = useContext(
+    SelectedRequestContext
+  );
+
+  const { requestOwner, setRequestOwner } = useContext(RequestOwnerContext);
+  const { reqOwnerFirstName, setReqOwnerFirstName } = useContext(
+    ReqOwnerFirstNameContext
+  );
+
+  let [sameUserClick, setSameUserClick] = useState(null);
+  let { setCurrentVol } = useContext(CurrentVolunteerContext);
+
+  const [requestId, setRequestId] = useState(null);
+
+  let { reqDescription, setReqDescription } = useContext(
+    SelectedReqDescContext
+  );
+  let { allRooms, setAllRooms } = useContext(AllRoomContext);
+
+  let { setChatReceiverId } = useContext(RequestOwnerIdContext);
+
+  let { setChatRoomId } = useContext(ChatRoomIdContext);
 
   const onCreateRoom = async () => {
     let roomObj = {
       name: reqDescription,
-      sender_id: state.currentUser.id,
+      sender_id: userId,
       receiver_id: requestOwner,
       request_id: requestId,
     };
 
     let tempArray = [roomObj, ...allRooms];
 
-    axios
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    let res = axios
       .post("http://localhost:3000/conversations", roomObj, {
         headers: {
           Authorization: `Basic ${token}`,
         },
       })
-      .then((res) => {
-        onRequestRoomCreate(res.data.id);
-       // allRooms(tempArray);
-      });
+      .then(
+        (response) => {
+          // console.log("success", response.data);
+          onRequestRoomCreate(response.data.id);
+
+          setChatRoomId(response.data.id);
+          history.push(`rooms/${response.data.id}`);
+
+          setAllRooms(tempArray);
+        },
+        (error) => {
+          // console.log("Error", error);
+        }
+      );
+
+    return res;
+  };
+
+  const onVolunteerClick = async () => {
+    setChatReceiverId(requestOwner);
+
+    const data = {
+      request_id: requestId,
+      user_id: userId,
+    };
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios
+      .post("http://localhost:3000/requests_users", data, {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
+      .then(
+        (response) => {
+          setCurrentVol(response.data);
+        },
+        (error) => {
+          // console.log(error);
+        }
+      );
+    // alert(`create a room for you and ${reqOwnerFirstName}`);
+
+    onCreateRoom();
+
+    // setCurrentRoom({
+    //   users: [userRequest, ...currentRoom.users],
+    // });
+
+    return res;
   };
 
   const onRequestRoomCreate = async (chatroomId) => {
@@ -80,41 +144,95 @@ function Map({ allRooms }) {
       room_id: chatroomId,
     };
 
-    axios
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    const res = await axios
       .post("http://localhost:3000/requests_rooms", data, {
         headers: {
           Authorization: `Basic ${token}`,
         },
       })
-      .then((res) => {
-          
-      });
-      
+      .then(
+        (response) => {
+          // console.log(response.data);
+        },
+        (error) => {
+          // console.log(error);
+        }
+      );
+
+    return res;
   };
 
-  const onVolunteerClick = async () => {
-    setChatReceiverId(requestOwner);
-    const data = {
-      request_id: requestId,
-      user_id: state.currentUser.id,
-    };
-    axios
-      .post("http://localhost:3000/requests_users", data, {
-        headers: {
-          Authorization: `Basic ${token}`,
+  const checkSameUserClick = async (id) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    let res = await axios
+      .get(
+        `http://localhost:3000/samevolunteer/${id}`,
+
+        {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        }
+      )
+      .then(
+        (response) => {
+          setSameUserClick(response.data);
         },
-      })
-      .then((res) => {
-        res;
-        console.log(res);
-      });
-    onCreateRoom();
+        (error) => {
+          //  console.log(error);
+        }
+      );
+    getRequestOwner(requestOwner);
+
+    // checkActiveRequest(requestId);
+    return res;
   };
-  const position = [51.505, -0.09];
+  const getRequestOwner = async (id) => {
+    if (id) {
+      const token = JSON.parse(localStorage.getItem("token"));
+
+      let res = await axios
+        .get(`http://localhost:3000/users/${id}`, {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        })
+        .then(
+          (response) => {
+            //  console.log(response.data)
+            // let ownerRec = Object.values(response.data);
+            // console.log(ownerRec[0])
+            setChatReceiverId(response.data.id);
+            setReqOwnerFirstName(response.data.first_name);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      return res;
+    }
+  };
+  const renderButton = () => {
+    if (userId === requestOwner) {
+      return <p className="badge h3 badge-info">You own this request</p>;
+    } else if (sameUserClick === true) {
+      return <p className="badge h3 badge-info mr-3">Already Volunteered</p>;
+    } else {
+      return (
+        <button onClick={onVolunteerClick} className="btn-sm btn-success">
+          Volunteer
+        </button>
+      );
+    }
+  };
+
   return (
     <div className="h-full grid mx-6">
       <MapContainer
-        center={[currentLatitude, currentLongitude]} // center to users current location
+        center={[userLat, userLng]} // center to users current location
         zoom={6}
         className="w-full col-span-2"
       >
@@ -128,7 +246,7 @@ function Map({ allRooms }) {
                 <p>hello</p>
               </Popup>
             </Marker>; */}
-        {items.map((items, index) => {
+        {allRequest.map((items, index) => {
           const {
             id,
             title,
@@ -139,36 +257,41 @@ function Map({ allRooms }) {
             fulfilled,
             user_id,
           } = items;
-          console.log(items);
+          // console.log(items); //TODO fix reload
           if (fulfilled === false) {
             return (
               <Marker
                 eventHandlers={{
                   click: (e) => {
+                    setSelectedRequest(items);
                     setRequestId(id);
+                    
                     setRequestOwner(user_id);
-                    setReqDescription(title);
+                    setReqDescription(description);
                     //console.log("clicked", id);
                   },
                 }}
                 position={[lat, lng]}
                 key={index}
               >
+                {selectedRequest && (
                 <Popup className="request-popup rounded">
                   <div>
                     <h1 className="text-xl font-bold capitalize">{title}</h1>
                     <p>{description}</p>
                     <p>{request_type}</p>
                     <div className="text-right">
-                      <button
+                    {renderButton()}
+                      {/* <button
                         onClick={onVolunteerClick}
                         className="bg-blue-500 px-6 py-3 text-white outline-none"
                       >
                         Volunteer
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </Popup>
+                )}
               </Marker>
             );
           }

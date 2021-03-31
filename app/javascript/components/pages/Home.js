@@ -1,5 +1,5 @@
 import React from "react";
-import Volunteer from "../../assets/images/volunteering.svg"
+import Volunteer from "../../../assets/images/volunteering.svg"
 function Home () {
     return(
         <div className="pb-12">

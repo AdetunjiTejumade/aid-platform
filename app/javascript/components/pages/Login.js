@@ -1,71 +1,64 @@
-import React, { useState, useRef } from "react";
+import React, {  useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "./App";
+import { Link, useHistory } from "react-router-dom";
+import { UserContext,  ErrorContext } from '../contexts/ContextFile';
 import axios from "axios";
 function Login() {
-  const { state, dispatch } = React.useContext(AuthContext);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  
+  let { error, setError } = useContext(ErrorContext);
+  const [loading, setLoading] = useState(false);
+
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });
-  const initialState = {
-    email: "",
-    password: "",
-    isSubmitting: false,
-    errorMessage: null,
+  const history = useHistory();
+  const { setUserData } = useContext(UserContext);
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
   };
-  const [data, setData] = React.useState(initialState);
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+  };
 
-  const handleInputChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
-  const values = {
-    email: data.email,
-    password: data.password,
-  }
+
   const onSubmit = (event) => {
-    // event.preventDefault();
-    setData({
-      ...data,
-      isSubmitting: true,
-      errorMessage: null,
-    });
 
-    axios
+    setLoading(true);
+
+  const data = {
+    email: email,
+    password: password,
+  }
+  let res = axios
       .post("http://localhost:3000/auth/signin", {
         auth: {
-          email: data.email,
-          password: data.password,
+          email: email,
+          password: password,
         },
       })
-      .then((res) => {
-        if (res.status === 201) {
-          return res;
-        }
-        throw res;
-      })
-      .then((resJson) => {
-        dispatch({
-          type: "LOGIN",
-         // payload: resJson.data
-         payload:{
-          values: values, 
-          data: resJson.data
-         }
+      .then((response) => {
+        setUserData({
+          token: response.data.jwt,
+          isLoggedIn: true,
+          user: data,
         });
-        setData({
-          isSubmitting: false,
-        })
+        localStorage.setItem("token", JSON.stringify(response.data.jwt));
+        localStorage.setItem("user", JSON.stringify(data));
+        setTimeout(() => {
+          window.location.reload();
+        }, 3500);
+        history.push("/map");
+        setError(false);
+        setLoading(false);
       })
       .catch((error) => {
-        setData({
-          ...data,
-          isSubmitting: false,
-          errorMessage: error.message || error.statusText,
-        });
+        setError(error.message || error.statusText);
+        setLoading(false);
       });
+      return res
   };
 
   return (
@@ -89,7 +82,7 @@ function Login() {
             })}
             placeholder="Enter your email address"
             className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
-            onChange={handleInputChange}
+            onChange={handleEmail}
           />
         </div>
 
@@ -107,19 +100,19 @@ function Login() {
               required: true,
             })}
             className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
-            onChange={handleInputChange}
+            onChange={handlePassword}
           />
         </div>
-        {data.errorMessage && (
-          <span className="form-error">{data.errorMessage}</span>
+        {error && (
+          <span className="form-error">{error}</span>
         )}
 
         <button
           type="submit"
-          disabled={data.isSubmitting}
+          disabled={loading}
           className="block mb-14 px-14 font-semibold outline-none py-4 bg-blue-500 text-white rounded"
         >
-          {data.isSubmitting ? "Loading..." : "Login"}
+          {loading ? "Loading..." : "Login"}
         </button>
       </form>
     </div>

@@ -7,8 +7,8 @@ import {
   useHistory,
 } from "react-router-dom";
 import axios from "axios";
-import Home from "../components/Home";
-import Login from "../components/Login";
+import Home from "../components/pages/Home";
+import Login from "../components/pages/Login";
 import SignUp from "../components/Signup";
 import RequestForm from "../components/NewRequest";
 import ListRequest from "../components/ListRequests";
@@ -51,7 +51,7 @@ function Routes({cableApp}) {
   };
   const updateAppStateRoom = (newRoom) => {
     currentRoom({
-      room: newRoom.room.data,
+      room: newRoom.conversation.data,
       users: newRoom.users,
       messages: newRoom.messages,
     });

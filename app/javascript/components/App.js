@@ -1,181 +1,463 @@
-import React, { useState, useEffect, createContext } from "react";
-import Routes from "../routes/Index";
+import React, { useEffect, useState, useContext } from "react";
+// import "./App.css";
+import { Switch, Route, useHistory, Redirect } from "react-router-dom";
+import Home from "./pages/Home";
+// import Login from "./pages/Login";
+import SignUp from "./pages/Signup";
+import RequestForm from "./NewRequest";
+import Login from "./pages/Login"
 import axios from "axios";
+import {
+  UserContext,
+  UserLatContext,
+  UserLngContext,
+  AllRequestContext,
+  FirstNameContext,
+  UserIdContext,
+  RequestOwnerContext,
+  AllVolunteerContext,
+  RequestIdContext,
+  ReqOwnerFirstNameContext,
+  ChatContext,
+  AllMessagesContext,
+  AllRoomContext,
+  SelectedRoomContext,
+  SelectedChatContext,
+  SelectedReqDescContext,
+  ChatRoomIdContext,
+  AllUserIdContext,
+  RequestOwnerIdContext,
+  CurrentRoomContext,
+  UserClickedRequest,
+  CurrentUserContext,
+  RoomDataContext,
+  HelperTextContext,
+  ErrorContext,
+  RequestFormContext,
+  SelectedRequestContext,
+  CurrentVolunteerContext,
+  DeactivateContext,
+  RepublishingContext,
+} from "./contexts/ContextFile";
+import Navbar from "./Navbar";
+import Map from "./Map"
+import RoomShow from "./RoomShow";
 
+const App = ({ cableApp }) => {
+  const history = useHistory();
+  const [userData, setUserData] = useState({
+    token: JSON.parse(localStorage.getItem("token")) || null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
+    isLoggedIn: JSON.parse(localStorage.getItem("user")) ? true : false,
+  });
 
-// import { AuthContext } from "../contexts/auth";
-export const AuthContext = createContext();
-export const RequestOwnerIdContext = createContext();
-export const RequestOwnerContext = createContext();
-//export const UserLocation = createContext();
-
-export const CurrentRoomContext = createContext();
-
-// const [allRooms, setAllRooms] = useState([]);
-// const [currentRoom, setCurrentRoom] = useState({
-//   room: {},
-//   users: [],
-//   messages: [],
-// });
-
-const initialState = {
-  isAuthenticated: localStorage.getItem("token") || false,
-  user: null,
-  token: null,
-  currentUser: null,
-  allRequests: null,
-  allVolunteers: null,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    // case "ALLROOMS":
-    //   return {
-    //     ...state,
-    //     allRooms: action.payload,
-    //   };
-    // case "CURRENTROOM":
-    //   return {
-    //     ...state,
-    //     currentRoom: {
-    //       room: action.payload,
-    //      // messages: action.payload.attributes.messages,
-    //       users: action.payload.attributes,
-    //     },
-    //   };
-    case "ALLVOLUNTEERS":
-      return {
-        ...state,
-        allVolunteers: action.payload,
-      };
-    case "ALLREQUESTS":
-      return {
-        ...state,
-        allRequests: action.payload,
-      };
-    case "CURRENTUSER":
-      return {
-        ...state,
-        isAuthenticated: true,
-        currentUser: action.payload,
-      };
-    case "LOGIN":
-      localStorage.setItem("user", JSON.stringify(action.payload.values));
-      localStorage.setItem("token", JSON.stringify(action.payload.data.jwt));
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload.values,
-        token: action.payload.data.jwt,
-      };
-    case "SIGNUP":
-      console.log("hey im ma do it");
-      localStorage.setItem("user", JSON.stringify(action.payload.values));
-      localStorage.setItem(
-        "token",
-        JSON.stringify(action.payload.data.token.token)
-      );
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload.values,
-        token: action.payload.data.token.token,
-      };
-    case "LOGOUT":
-      localStorage.clear();
-      return {
-        ...state,
-        isAuthenticated: false,
-        user: null,
-      };
-
-    default:
-      return state;
-  }
-};
-function App({ cableApp }) {
-  //console.log(props.cableApp);
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-  const [chatReceiverId, setChatReceiverId] = useState(null);
+  const [userLat, setUserLat] = useState(0);
+  const [userLng, setUserLng] = useState(0);
+  const [allRequest, setAllRequest] = useState([]);
+  const [allVolunteers, setAllVolunteers] = useState([]);
+  const [currentVol, setCurrentVol] = useState({});
+  const [firstName, setFirstName] = useState("");
   const [requestOwner, setRequestOwner] = useState(null);
-  const token = JSON.parse(localStorage.getItem("token"));
+  const [userId, setUserId] = useState(null);
+  const [requestId, setRequestId] = useState(null);
+
+  const [reqOwnerFirstName, setReqOwnerFirstName] = useState("");
+  const [showChat, setShowChat] = useState(false);
+  const [allMessages, setAllMessages] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState({} || null);
+  const [selectedChat, setSelectedChat] = useState([]);
+  const [reqDescription, setReqDescription] = useState("");
+  const [selectedRequest, setSelectedRequest] = useState(null);
+  const [deactivate, setDeactivate] = useState(false);
+  const [chatRoomId, setChatRoomId] = useState(null);
+  const [allUserId, setAllUserId] = useState([]);
+  const [chatReceiverId, setChatReceiverId] = useState(null);
+  const [userRequest, setUserRequest] = useState({});
+
+  const [allRooms, setAllRooms] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [currentRoom, setCurrentRoom] = useState({
+    room: {},
+    users: [],
+    messages: [],
+  });
+
+  const [helperMessage, setHelperMessage] = useState("");
+  const [error, setError] = useState(false);
+  const [showRequestForm, setShowRequestForm] = useState(false);
+  let [requiresRepublishing, setRequiresRepublishing] = useState(false);
 
   useEffect(() => {
     getCurrentUser();
-    getAllRequests();
-    getAllVolunteers();
-  }, [initialState]);
 
-  const getAllVolunteers = async () => {
-    axios
-      .get("http://localhost:3000/requests_users", {
-        headers: {
-          Authorization: `Basic ${token}`,
-        },
-      })
-      .then((res) => {
-        dispatch({
-          type: "ALLVOLUNTEERS",
-          payload: res.data,
-        });
+    checkedLoggedIn();
+    getAllRequest();
+    getUserLocation();
+    getAllRooms();
+    getAllVolunteers();
+
+    document.title = "Feed | Peeps";
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const checkedLoggedIn = () => {
+    let token = localStorage.getItem("token");
+    if (token || userData.user) {
+      setUserData({
+        isLoggedIn: true,
       });
+      history.push("/map");
+    } else if (!token || !userData.user) {
+      setUserData({
+        isLoggedIn: false,
+      });
+      history.push("/login");
+    }
   };
-  const getAllRequests = async () => {
-    axios
-      .get("http://localhost:3000/requests", {
+
+  const getAllRequest = async () => {
+    let res = await axios
+      .get("http://localhost:3000/requests/", {
         headers: {
-          Authorization: `Basic ${token}`,
+          Authorization: `Basic ${userData.token}`,
         },
       })
-      .then((res) => {
-        //console.log(res.data);
-        dispatch({
-          type: "ALLREQUESTS",
-          payload: res.data,
-        });
-      });
+      .then(
+        (response) => {
+          // let filteredReq = response.data.filter(
+          //   (item) => item.active === true
+          // );
+          // setAllRequest(filteredReq);
+          setAllRequest(response.data);
+        },
+        (error) => {
+          // console.log(error);
+        }
+      );
+
+    return res;
+  };
+
+  // request greater that 24hrs, are not fulfilled and have less than 5 volunteers
+
+  const getUserLocation = () => {
+    window.navigator.geolocation.getCurrentPosition(
+      (position) => {
+        let { latitude, longitude } = position.coords;
+
+        setUserLat(latitude);
+        setUserLng(longitude);
+      },
+      (error) => {
+        if (error.code === 1) {
+          setInterval(() => {
+            alert(
+              "Kindly allow location, for a more immersive experience with the app."
+            );
+          }, 10000);
+
+          // console.log(error);
+        }
+      }
+    );
   };
 
   const getCurrentUser = async () => {
-    axios
+    let res = await axios
       .get("http://localhost:3000/users", {
+        headers: {
+          Authorization: `Basic ${userData.token}`,
+        },
+      })
+      .then(
+        (response) => {
+          // console.log(response.data);
+
+          const getAllId = response.data.map((user) => user.id);
+          setAllUserId(getAllId);
+          if (userData.isLoggedIn) {
+            const user = JSON.parse(localStorage.getItem("user"));
+            const curUser = response.data.find(
+              (item) => item.email === user.email
+            );
+
+            setUserId(curUser.id);
+            setFirstName(curUser.first_name);
+
+            setCurrentRoom({
+              room: {},
+              messages: [],
+              users: [curUser, ...currentRoom.users],
+            });
+
+            setUserData({
+              user: curUser,
+              isLoggedIn: true,
+            });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    // console.log("i am getting all users");
+    return res;
+  };
+
+  const getAllRooms = async () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    let res = await axios
+      .get(`http://localhost:3000/conversations/`, {
         headers: {
           Authorization: `Basic ${token}`,
         },
       })
-      .then((res) => {
-        if (state.isAuthentication !== "") {
-          const user = JSON.parse(localStorage.getItem("user"));
-          const curUser = res.data.find((item) => item.email === user.email);
-          //console.log(curUser);
-          dispatch({
-            type: "CURRENTUSER",
-            payload: curUser,
-          });
-          // dispatch({
-          //   type: "CURRENTROOM",
-          //   payload: curUser,
-          // });
+      .then(
+        (response) => {
+          setAllRooms(response.data);
+        },
+        (error) => {
+          // console.log(error);
         }
-        //console.log(res); console.log(props.cableApp);
-      });
+      );
+
+    return res;
+  };
+
+  const getAllVolunteers = async () => {
+    const token = JSON.parse(localStorage.getItem("token"));
+    let res = await axios
+      .get(`http://localhost:3000/requests_users/`, {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
+      .then(
+        (response) => {
+          setAllVolunteers(response.data);
+        },
+        (error) => {
+          // console.log(error);
+        }
+      );
+
+    return res;
   };
 
   return (
-    <AuthContext.Provider value={{ state, dispatch }}>
-      {/* <AllRoomContext value={{ allRooms, setAllRooms }}> */}
-      {/* <RoomDataContext value={{ currentRoom, setCurrentRoom }}> */}
-      <RequestOwnerIdContext.Provider
-        value={{ chatReceiverId, setChatReceiverId }}
+    <>
+      <RequestFormContext.Provider
+        value={{ showRequestForm, setShowRequestForm }}
       >
-        <RequestOwnerContext.Provider value={{ requestOwner, setRequestOwner }}>
-          <Routes cableApp={cableApp} />
-        </RequestOwnerContext.Provider>
-      </RequestOwnerIdContext.Provider>
+        <AllRequestContext.Provider value={{ allRequest, setAllRequest }}>
+          <UserLngContext.Provider value={{ userLng, setUserLng }}>
+            <UserLatContext.Provider value={{ userLat, setUserLat }}>
+              <UserContext.Provider value={{ userData, setUserData }}>
+                <FirstNameContext.Provider value={{ firstName, setFirstName }}>
+                  <UserIdContext.Provider value={{ userId, setUserId }}>
+                    <RequestOwnerContext.Provider
+                      value={{ requestOwner, setRequestOwner }}
+                    >
+                      <AllVolunteerContext.Provider
+                        value={{ allVolunteers, setAllVolunteers }}
+                      >
+                        <RequestIdContext.Provider
+                          value={{ requestId, setRequestId }}
+                        >
+                          <ReqOwnerFirstNameContext.Provider
+                            value={{ reqOwnerFirstName, setReqOwnerFirstName }}
+                          >
+                            <ChatContext.Provider
+                              value={{ showChat, setShowChat }}
+                            >
+                              <AllMessagesContext.Provider
+                                value={{ allMessages, setAllMessages }}
+                              >
+                                <AllRoomContext.Provider
+                                  value={{ allRooms, setAllRooms }}
+                                >
+                                  <SelectedRoomContext.Provider
+                                    value={{ selectedRoom, setSelectedRoom }}
+                                  >
+                                    <SelectedChatContext.Provider
+                                      value={{ selectedChat, setSelectedChat }}
+                                    >
+                                      <SelectedReqDescContext.Provider
+                                        value={{
+                                          reqDescription,
+                                          setReqDescription,
+                                        }}
+                                      >
+                                        <ChatRoomIdContext.Provider
+                                          value={{ chatRoomId, setChatRoomId }}
+                                        >
+                                          <AllUserIdContext.Provider
+                                            value={{ allUserId, setAllUserId }}
+                                          >
+                                            <RequestOwnerIdContext.Provider
+                                              value={{
+                                                chatReceiverId,
+                                                setChatReceiverId,
+                                              }}
+                                            >
+                                              <CurrentRoomContext.Provider
+                                                value={{
+                                                  currentRoom,
+                                                  setCurrentRoom,
+                                                }}
+                                              >
+                                                <UserClickedRequest.Provider
+                                                  value={{
+                                                    userRequest,
+                                                    setUserRequest,
+                                                  }}
+                                                >
+                                                  <RoomDataContext.Provider
+                                                    value={{
+                                                      currentRoom,
+                                                      setCurrentRoom,
+                                                    }}
+                                                  >
+                                                    <CurrentUserContext.Provider
+                                                      value={{
+                                                        currentUser,
+                                                        setCurrentUser,
+                                                      }}
+                                                    >
+                                                      <ErrorContext.Provider
+                                                        value={{
+                                                          error,
+                                                          setError,
+                                                        }}
+                                                      >
+                                                        <HelperTextContext.Provider
+                                                          value={{
+                                                            helperMessage,
+                                                            setHelperMessage,
+                                                          }}
+                                                        >
+                                                          <SelectedRequestContext.Provider
+                                                            value={{
+                                                              selectedRequest,
+                                                              setSelectedRequest,
+                                                            }}
+                                                          >
+                                                            <CurrentVolunteerContext.Provider
+                                                              value={{
+                                                                currentVol,
+                                                                setCurrentVol,
+                                                              }}
+                                                            >
+                                                              <DeactivateContext.Provider
+                                                                value={{
+                                                                  deactivate,
+                                                                  setDeactivate,
+                                                                }}
+                                                              >
+                                                                <RepublishingContext.Provider
+                                                                  value={{
+                                                                    requiresRepublishing,
+                                                                    setRequiresRepublishing,
+                                                                  }}
+                                                                >
+                                                                  <Navbar />
 
-      {/* </RoomDataContext> */}
-      {/* </AllRoomContext> */}
-    </AuthContext.Provider>
+                                                                  <Switch>
+                                                                    {/* <Route exact path="/" component={Home} /> */}
+{/* TODO add login routes */}
+                                                                    <Route
+                                                                      exact
+                                                                      path="/signup"
+                                                                      component={
+                                                                        SignUp
+                                                                      }
+                                                                    />
+                                                                    <Route
+                                                                      exact
+                                                                      path="/login"
+                                                                      component={
+                                                                        Login
+                                                                      }
+                                                                    />
+
+                                                                    <PrivateRoute
+                                                                      exact
+                                                                      path="/rooms/:id"
+                                                                    >
+                                                                      <RoomShow
+                                                                        cableApp={
+                                                                          cableApp
+                                                                        }
+                                                                      />
+                                                                    </PrivateRoute>
+                                                                    <PrivateRoute exact path="/new">
+                                                                      <RequestForm />
+                                                                    </PrivateRoute>
+                                                                   <PrivateRoute exact path="/map">
+                                                                      <Map />
+                                                                    </PrivateRoute>
+                                                                    {/* TODO add map */}
+                                                                    <Route
+                                                                      exact
+                                                                      path="/"
+                                                                    >
+                                                                      <Home />
+                                                                    </Route>
+                                                                  </Switch>
+                                                                </RepublishingContext.Provider>
+                                                              </DeactivateContext.Provider>
+                                                            </CurrentVolunteerContext.Provider>
+                                                          </SelectedRequestContext.Provider>
+                                                        </HelperTextContext.Provider>
+                                                      </ErrorContext.Provider>
+                                                    </CurrentUserContext.Provider>
+                                                  </RoomDataContext.Provider>
+                                                </UserClickedRequest.Provider>
+                                              </CurrentRoomContext.Provider>
+                                            </RequestOwnerIdContext.Provider>
+                                          </AllUserIdContext.Provider>
+                                        </ChatRoomIdContext.Provider>
+                                      </SelectedReqDescContext.Provider>
+                                    </SelectedChatContext.Provider>
+                                  </SelectedRoomContext.Provider>
+                                </AllRoomContext.Provider>
+                              </AllMessagesContext.Provider>
+                            </ChatContext.Provider>
+                          </ReqOwnerFirstNameContext.Provider>
+                        </RequestIdContext.Provider>
+                      </AllVolunteerContext.Provider>
+                    </RequestOwnerContext.Provider>
+                  </UserIdContext.Provider>
+                </FirstNameContext.Provider>
+              </UserContext.Provider>
+            </UserLatContext.Provider>
+          </UserLngContext.Provider>
+        </AllRequestContext.Provider>
+      </RequestFormContext.Provider>
+    </>
+  );
+};
+
+export default App;
+
+function PrivateRoute({ children, ...rest }) {
+  let { userData } = useContext(UserContext);
+
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        userData.isLoggedIn ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    />
   );
 }
-export default App;

@@ -19,11 +19,11 @@
 # )
 
 Request.create(
-    title:"Fan",
-    description: "I need a fan",
-    lat: 60.128162,
-    lng: 18.643501,
+    title:"School fees",
+    description: "My exams are near and i havent paid my school fees",
+    lat: 6.128162,
+    lng: 3.643501,
     request_type: "material_need",
-    address: "11 lala land,Earth",
-    user_id: 2
+    address: "2, abule egba,lagos,nigeria",
+    user_id: 20
 )

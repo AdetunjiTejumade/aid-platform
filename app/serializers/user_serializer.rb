@@ -9,11 +9,11 @@ class UserSerializer < ActiveModel::Serializer
         .slice('filename', 'byte_size')
         .merge(url: avatar_url)
         .tap { |attrs| attrs['name'] = attrs.delete('filename') }
-  end
+    end
 
-  def avatar_url 
-     url_for(object.avatar) 
+    def avatar_url 
+     url_for(object.avatar)
 
-  end
-  has_many :conversations, through: :messages
+    end
+ 
 end

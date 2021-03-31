@@ -1,24 +1,58 @@
-import React, { Component } from 'react';
+import React, { useEffect, useContext } from "react";
+import relativeTime from "dayjs/plugin/relativeTime";
+import dayjs from "dayjs";
+import {
+  UserIdContext,
+  ReqOwnerFirstNameContext,
+  RoomDataContext,
+} from "./contexts/ContextFile";
 
-class ChatMessage extends Component {
-    whichUser = () => {
-        if (this.props.message.user_id === parseInt(this.props.currentUser.id)) {
-            return 'current-user-message'
-        } else {
-            return 'other-user-message'
+export default function ChatMessage({ message }) {
+  useEffect(() => {
+    getRecipient();
+    document.title = `${
+      reqOwnerFirstName ? reqOwnerFirstName : ``
+    } | Chat `;
+  });
+  dayjs.extend(relativeTime);
+
+  let { userId } = useContext(UserIdContext);
+
+  let { reqOwnerFirstName, setReqOwnerFirstName } = useContext(
+    ReqOwnerFirstNameContext
+  );
+  let { currentRoom } = useContext(RoomDataContext);
+
+  const getRecipient = () => {
+    if (currentRoom.room.users) {
+      let recipient = currentRoom.room.users.filter(
+        (user) => user.id !== userId
+      );
+      let recipientName = recipient.map((item) => item.first_name);
+      setReqOwnerFirstName(recipientName[0]);
+    }
+  };
+
+  return (
+    <div
+      className={message.user_id === userId ? `col-md-3 offset-md-9` : `col-md-3`}
+    >
+      <div
+        className={
+          message.user_id === userId
+            ? `chat-bubble chat-bubble--right text-left`
+            : `chat-bubble chat-bubble--left`
         }
-    }
-    
-    render() {
-        // when rendering the chat message, I need to first check whether the author of that message is my current user or not (by comparing ids)
-        // if it is my current user, I will align the chat message div to the right of the page, and use a different color to differentiate their messages from the others' messages
-        return (
-            <div id="chat-message" className={this.whichUser()}>
-                <h4>{this.props.message.content}</h4>
-               {/* <img src={`http://localhost:3000/${this.props.avatar}`} alt="message author's avatar"/> */}
-            </div>     
-        )
-    }
+      >
+        <small style={{ color: "#777" }}>
+          {message.user_id === userId ? `You` : reqOwnerFirstName}
+        </small>{" "}
+        <br />
+        {message.body} <br />
+        <small style={{ color: "#777" }}>
+          {dayjs(message.created_at).fromNow()}
+        </small>
+      </div>
+    </div>
+  );
 }
-
-export default ChatMessage
