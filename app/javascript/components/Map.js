@@ -4,7 +4,7 @@ import React, {
   useContext,
   useRef,
   useCallback,
-  useLayoutEffect
+  useLayoutEffect,
 } from "react";
 import {
   UserLatContext,
@@ -265,7 +265,7 @@ function Map() {
                   click: (e) => {
                     setSelectedRequest(items);
                     setRequestId(id);
-                    
+
                     setRequestOwner(user_id);
                     setReqDescription(description);
                     //console.log("clicked", id);
@@ -275,22 +275,22 @@ function Map() {
                 key={index}
               >
                 {selectedRequest && (
-                <Popup className="request-popup rounded">
-                  <div>
-                    <h1 className="text-xl font-bold capitalize">{title}</h1>
-                    <p>{description}</p>
-                    <p>{request_type}</p>
-                    <div className="text-right">
-                    {renderButton()}
-                      {/* <button
+                  <Popup className="request-popup rounded">
+                    <div>
+                      <h1 className="text-xl font-bold capitalize">{title}</h1>
+                      <p>{description}</p>
+                      <p>{request_type}</p>
+                      <div className="text-right">
+                        {renderButton()}
+                        {/* <button
                         onClick={onVolunteerClick}
                         className="bg-blue-500 px-6 py-3 text-white outline-none"
                       >
                         Volunteer
                       </button> */}
+                      </div>
                     </div>
-                  </div>
-                </Popup>
+                  </Popup>
                 )}
               </Marker>
             );
