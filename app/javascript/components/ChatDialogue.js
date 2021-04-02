@@ -1,14 +1,13 @@
-import React, {useContext} from 'react';
-import Button from "@material-ui/core/Button";
+import React, { useContext } from "react";
+// import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import RoomList from './RoomList';
-import RepublishRoom from './RepublishRoom'
+import RoomList from "./RoomList";
+import RepublishRoom from "./RepublishRoom";
 import { AllRoomContext } from "../components/contexts/ContextFile";
-
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -16,65 +15,47 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 //TODO fix forward ref error
 
 export default function ChatDialogue() {
- 
-  
-  
-
-let {allRooms} = useContext(AllRoomContext)    
-  
-
+  let { allRooms } = useContext(AllRoomContext);
 
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
-
-
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  return (
+    <>
+      <button
+        // variant="contained"
+        // color="primary"
+        // className="text-bold"
+        // color={"text-blue-500"}
+        className="uppercase px-6 py-4"
+        onClick={handleClickOpen}
+      >
+        Rooms
+      </button>
 
-
-
-
- 
-
-  
-
-    
-    return (
-        <>
-          <a
-            // variant="contained"
-            // color="primary"
-            // className="text-bold"
-            
-            onClick={handleClickOpen}
-          >
-            Rooms
-          </a>
-
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle id="alert-dialog-slide-title">
-              {"ChatRooms"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                <RoomList allRooms={allRooms} />
-                <RepublishRoom />
-              </DialogContentText>
-            </DialogContent>
-            {/* <DialogActions>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">{"ChatRooms"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            <RoomList allRooms={allRooms} />
+            <RepublishRoom />
+          </DialogContentText>
+        </DialogContent>
+        {/* <DialogActions>
             <Button onClick={handleClose} color="primary">
               Disagree
             </Button>
@@ -82,7 +63,7 @@ let {allRooms} = useContext(AllRoomContext)
               Agree
             </Button>
           </DialogActions> */}
-          </Dialog>
-        </>
-    );
+      </Dialog>
+    </>
+  );
 }

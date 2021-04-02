@@ -43,7 +43,7 @@ function Navbar() {
     // <AuthContext.Consumer>
     <div>
       {/* align-items: baseline */}
-      <div className="md:flex justify-between text-blue-500 p-6 items-baseline">
+      <div className="md:flex justify-between text-blue-500 px-6 py-2 items-baseline">
         {/* logo */}
         <div className="">
           <Link to="/">HELPING HANDS</Link>
@@ -62,11 +62,12 @@ function Navbar() {
               <Link to="/map" className="pr-5 block md:inline uppercase">
                 Map
               </Link>
-              <Link to="/new" className="pr-5 block md:inline uppercase">
+              <Link to="/new" className="block md:inline uppercase">
                 Add Request
               </Link>
-              <div className="pr-5 block md:inline uppercase">
-                <Republish />
+              <div className="block md:inline uppercase">
+                <Republish /> 
+                
               </div>
 
               <div className="pr-5 block md:inline uppercase">

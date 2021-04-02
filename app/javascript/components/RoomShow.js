@@ -9,14 +9,19 @@ import {
   RepublishingContext,
 } from "./contexts/ContextFile";
 import ChatMessage from "./ChatMessage";
-// import "../../assets/stylesheets/Chat.scss"; //app\assets\stylesheets\Chat.scss
+import "../../assets/stylesheets/chat.css"; //app\assets\stylesheets\Chat.scss
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
 // import Typography from "@material-ui/core/Typography";
 import Faker from "faker";
 import Checkbox from "@material-ui/core/Checkbox";
 
 function RoomShow({ cableApp }) {
+  const { register, handleSubmit, errors, reset } = useForm({
+    mode: "onBlur",
+  });
+
   let { currentRoom, setCurrentRoom } = useContext(RoomDataContext);
   let { userId } = useContext(UserIdContext);
   let { chatRoomId } = useContext(ChatRoomIdContext);
@@ -199,7 +204,7 @@ function RoomShow({ cableApp }) {
   const createWebSocket = () => {
     cableApp.conversation = cableApp.cable.subscriptions.create(
       {
-        channel: "RoomsChannel",
+        channel: "ConversationChannel",
         room: chatRoomId || roomParam,
       },
       {
@@ -221,18 +226,17 @@ function RoomShow({ cableApp }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const onSubmit = (e) => {
+    console.log("clicked");
     const token = JSON.parse(localStorage.getItem("token"));
-
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let message = {
       body: inputRef.current.value,
       user_id: userId,
-      room_id: chatRoomId || roomParam,
+      conversation_id: chatRoomId || roomParam,
     };
 
     // console.log(message);
-
-    e.preventDefault();
 
     if (inputRef.current.value.length === 0) {
       alert("message can not be empty");
@@ -243,19 +247,17 @@ function RoomShow({ cableApp }) {
     let res = axios
       .post("http://localhost:3000/messages", message, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",
           Accept: "application/json",
         },
       })
-      .then(
-        (response) => {
-          // console.log("Success", response.data);
-        },
-        (error) => {
-          console.error("Error", error);
-        }
-      );
+      .then((response) => {
+        console.log("Success", response.data);
+      }).catch((error) => {
+        console.error("failed");
+      })
 
     return res;
   };
@@ -276,59 +278,43 @@ function RoomShow({ cableApp }) {
           </Link>
         </div>
       ) : (
-        <div className="messages-wrapper">
-          <div className="item item--2">
-            <div className="item--2 inner-one">
-              <div className="">
-                <div className="friend-drawer no-gutters friend-drawer--grey d-flex align-items-center ">
-                  <img
-                    className="profile-image mr-3"
-                    src={Faker.image.people()}
-                    alt="faker-pic"
-                  />
-                  <div className="text mr-3">
-                    <h6 className="text-left">{reqOwnerFirstName}</h6>
-                    <p>{currentRoom.room.name}</p>
+        <>
+          <div class="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
+            <div class="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
+              <div class="flex items-center space-x-2"></div>
+              <div class="flex items-center space-x-4">
+                <img
+                  src={Faker.image.people()}
+                  alt="faker profile pic"
+                  class="w-10 sm:w-16 h-10 sm:h-16 rounded-full"
+                />
+
+                <div class="flex flex-col leading-tight">
+                  <div class="text-2xl mt-1 flex items-center">
+                    <span class="text-gray-700 mr-3">{reqOwnerFirstName}</span>
+                    <span class="text-green-500">
+                      <svg width="10" height="10">
+                        <circle
+                          cx="5"
+                          cy="5"
+                          r="5"
+                          fill="currentColor"
+                        ></circle>
+                      </svg>
+                    </span>
                   </div>
-                  <div className="settings-tray--right ">
-                    {/* <i className="material-icons">cached</i> */}
-                    {/* <i className="material-icons">message</i> */}
-
-                    <div className="d-flex align-items-center">
-                      {currentVol.fulfilled === true ? (
-                        <span style={{ color: "green" }}>
-                          Already Fulfilled
-                        </span>
-                      ) : (
-                        <div>
-                          {/* <Typography component={'span'}>Set to Fufilled</Typography> */}
-                          Set to Fufilled
-                          <Checkbox
-                            // defaultChecked={currentVol.fulfilled}
-
-                            disabled={currentRoom.messages.length === 0}
-                            defaultChecked={checked}
-                            color="primary"
-                            value={checked}
-                            onChange={handleChecked}
-                          />
-                        </div>
-                      )}
-
-                      {/* <CancelIcon onClick={closeChat} /> */}
-                      {currentRoom.messages.length < 0 ? (
-                        <h3 className="text-center m-auto">
-                          Type your first message
-                        </h3>
-                      ) : null}
-                    </div>
-                  </div>
+                  <span class="text-lg text-gray-600">
+                    {currentRoom.room.name}
+                  </span>
+                  {/* TODO add title */}
                 </div>
               </div>
             </div>
 
-            <div className="messages-container">
-              {/* roomDetail start */}
+            <div
+              id="messages"
+              class="flex flex-col space-y-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+            >
               {currentRoom.messages ? (
                 displayMessages(currentRoom.messages)
               ) : (
@@ -336,27 +322,37 @@ function RoomShow({ cableApp }) {
                   This room has no messages yet - be the first to post!
                 </h3>
               )}
-
-              {/* roomDetail end */}
             </div>
-
-            {/* form start */}
-            <form className=" footer " onSubmit={handleSubmit}>
-              {/* // <form className="item--2 inner-three " > */}
-              <div className="chat-box-tray">
-                <i className="material-icons">sentiment_very_satisfied</i>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              class="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0"
+            >
+              <div class="relative flex">
                 <input
-                  className="chatbody"
-                  ref={inputRef}
                   type="text"
-                  placeholder="Type your message here..."
+                  ref={inputRef}
+                  placeholder="Write Something"
+                  class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-full py-3"
                 />
-                <i className="material-icons">mic</i>
+                <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+                  <button
+                    type="submit"
+                    class="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="h-6 w-6 transform rotate-90"
+                    >
+                      <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </form>
-            {/* form end  */}
           </div>
-        </div>
+        </>
       )}
     </>
   );

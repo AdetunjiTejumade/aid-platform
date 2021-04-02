@@ -248,7 +248,7 @@ function RequestForm() {
 
         <button
           type="submit"
-          className="block px-14 font-*semibold outline-none py-4 bg-blue-500 text-white rounded"
+          className="block px-14 font-semibold outline-none py-4 bg-blue-500 text-white rounded"
         >
           {loading ? "Loading..." : "Submit"}
         </button>

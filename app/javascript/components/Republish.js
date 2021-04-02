@@ -61,18 +61,15 @@ export default function LongMenu() {
 
   return (
     <>
-      <Button
+      <button
+        className="uppercase px-6 py-4 outline-none"
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <a
-        // variant="contained" color="primary"
-        >
-          Republish Request
-        </a>
-      </Button>
+        Republish Request
+      </button>
       <Menu
         id="long-menu"
         anchorEl={anchorEl}
