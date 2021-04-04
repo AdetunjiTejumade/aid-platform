@@ -41,9 +41,10 @@ group :development, :test do
 end
 
 group :test do
-  # gem 'rspec-rails'
-  # gem 'shoulda-callback-matchers', '~> 1.1.1'
-  # gem 'shoulda-matchers', '~> 4.0'
+  gem 'factory_bot_rails', '~> 4.0'
+  gem 'shoulda-matchers', '~> 3.1'
+  gem 'faker'
+  gem 'database_cleaner'
   gem 'capybara'
   gem 'selenium-webdriver'
 end
