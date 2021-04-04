@@ -36,14 +36,14 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   #test
   gem 'rspec-rails'
-  gem 'factory_bot_rails'
+  # gem 'factory_bot_rails'
 
 end
 
 group :test do
   # gem 'rspec-rails'
-  gem 'shoulda-callback-matchers', '~> 1.1.1'
-  gem 'shoulda-matchers', '~> 4.0'
+  # gem 'shoulda-callback-matchers', '~> 1.1.1'
+  # gem 'shoulda-matchers', '~> 4.0'
   gem 'capybara'
   gem 'selenium-webdriver'
 end
