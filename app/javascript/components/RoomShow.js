@@ -18,6 +18,7 @@ import Faker from "faker";
 import Checkbox from "@material-ui/core/Checkbox";
 
 function RoomShow({ cableApp }) {
+  useEffect(() => {}, []);
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });
@@ -205,7 +206,7 @@ function RoomShow({ cableApp }) {
     cableApp.conversation = cableApp.cable.subscriptions.create(
       {
         channel: "ConversationChannel",
-        room: chatRoomId || roomParam,
+        conversation: chatRoomId || roomParam,
       },
       {
         received: (updatedRoom) => {
@@ -219,6 +220,7 @@ function RoomShow({ cableApp }) {
   };
 
   const updateAppStateRoom = (newRoom) => {
+    console.log("here");
     setCurrentRoom({
       room: newRoom.conversation,
       // users: newRoom.users,
@@ -247,7 +249,6 @@ function RoomShow({ cableApp }) {
     let res = axios
       .post("http://localhost:3000/messages", message, {
         headers: {
-          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",
           Accept: "application/json",
