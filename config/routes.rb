@@ -32,9 +32,11 @@ Rails.application.routes.draw do
   get 'deactivaterooms/:id', to: 'requests_conversations#de_activate_conversations'
 
   # get '/rooms/:id', to 'conversations#show'
-  '/map'
-  '/new'
   post 'rails/active_storage/direct_uploads', to: 'direct_uploads#create'
-  # match '*path', to: 'pages#index', via: :all
+  match '/map', to: 'pages#index', via:[:get]
+  match '/new', to: 'pages#index', via:[:get]
+  match '/logout', to: 'pages#index', via:[:get]
+  match '/signup', to: 'pages#index', via:[:get]
+  match '/login', to: 'pages#index', via:[:get]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
