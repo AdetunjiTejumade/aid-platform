@@ -1,9 +1,9 @@
 import React from "react";
 import MenuItems from "./MenuItem";
 
-export default function MenuList({ requests }) {
+const MenuList = React.forwardRef(({ requests }, ref) => {
   const renderRequest = () => {
-    return requests.map((request) => <MenuItems request={request} />);
+    return requests.map((request) => <MenuItems request={request} ref={ref} />);
   };
 
   return (
@@ -15,4 +15,6 @@ export default function MenuList({ requests }) {
       )}
     </div>
   );
-}
+})
+
+export default MenuList;

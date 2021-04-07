@@ -81,16 +81,16 @@ const [anchorEl, setAnchorEl] = useState(null);
 
   return (
     <>
-      <IconButton
+      <Button
+        variant="contained"
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
         onClick={handleClick}
+        color="primary"
       >
-        <Button variant="contained" color="primary">
-          Republish Room
-        </Button>
-      </IconButton>
+        Republish Room
+      </Button>
       <Menu
         id="long-menu"
         anchorEl={anchorEl}

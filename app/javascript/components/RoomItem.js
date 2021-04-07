@@ -84,8 +84,7 @@ export default function RoomItem({ room, allVolunteers }) {
 
 
   return (
-    <p onClick={handleClick}>
-        <Link to={`/rooms/${room.id || currentRoom.room.id}`}>{room.name}</Link>
-    </p>
+    <Link to={`/rooms/${room.id || currentRoom.room.id}`} onClick={handleClick}>{room.name}</Link>
+
   );
 }

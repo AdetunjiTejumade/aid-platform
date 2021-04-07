@@ -9,11 +9,11 @@ import RoomList from "./RoomList";
 import RepublishRoom from "./RepublishRoom";
 import { AllRoomContext } from "../components/contexts/ContextFile";
 
-const Transition = React.forwardRef(function Transition(props, ref) {
+const Transition = React.forwardRef((props, ref) => {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-//TODO fix forward ref error
 
+//TODO fix forward ref error
 export default function ChatDialogue() {
   let { allRooms } = useContext(AllRoomContext);
 
@@ -50,10 +50,10 @@ export default function ChatDialogue() {
       >
         <DialogTitle id="alert-dialog-slide-title">{"ChatRooms"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
+          {/* <DialogContentText id="alert-dialog-slide-description"> */}
             <RoomList allRooms={allRooms} />
             <RepublishRoom />
-          </DialogContentText>
+          {/* </DialogContentText> */}
         </DialogContent>
         {/* <DialogActions>
             <Button onClick={handleClose} color="primary">

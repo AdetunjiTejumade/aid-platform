@@ -26,13 +26,6 @@ export default function RoomList({ allRooms, requiresRepublishing }) {
           
         );
       }
-      //     else {
-      //     return (
-      //       <p>
-      //         You have not volunteered for any request or don't own any request
-      //       </p>
-      //     );
-      //   }
     });
     return allRoom;
   };

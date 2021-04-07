@@ -3,7 +3,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
 import { AllRequestContext } from "../components/contexts/ContextFile";
 
-export default function MenuItems({ request }) {
+const MenuItems = React.forwardRef((props, ref) => {
   const { allRequest, setAllRequest } = useContext(AllRequestContext);
 
   const handleRequestDetails = () => {
@@ -44,6 +44,8 @@ export default function MenuItems({ request }) {
 
   return (
     <MenuItem
+      {...props}
+      refs={ref}
       key={request.id}
       selected={request[0]}
       onClick={handleRequestDetails}
@@ -51,4 +53,7 @@ export default function MenuItems({ request }) {
       {request.description}
     </MenuItem>
   );
-}
+
+})
+
+export default MenuItems;
