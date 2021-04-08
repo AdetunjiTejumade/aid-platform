@@ -3,7 +3,7 @@ import MenuItems from "./MenuItem";
 
 const MenuList = React.forwardRef(({ requests }, ref) => {
   const renderRequest = () => {
-    return requests.map((request) => <MenuItems request={request} ref={ref} />);
+    return requests.map((request,index) => <MenuItems request={request} ref={ref} key={index} />);
   };
 
   return (

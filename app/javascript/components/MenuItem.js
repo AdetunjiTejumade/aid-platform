@@ -3,7 +3,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import axios from "axios";
 import { AllRequestContext } from "../components/contexts/ContextFile";
 
-const MenuItems = React.forwardRef((props, ref) => {
+const MenuItems = React.forwardRef(({ request }, ref) => {
   const { allRequest, setAllRequest } = useContext(AllRequestContext);
 
   const handleRequestDetails = () => {
@@ -44,8 +44,8 @@ const MenuItems = React.forwardRef((props, ref) => {
 
   return (
     <MenuItem
-      {...props}
-      refs={ref}
+      // {...props}
+      ref={ref}
       key={request.id}
       selected={request[0]}
       onClick={handleRequestDetails}

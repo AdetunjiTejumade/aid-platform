@@ -29,16 +29,16 @@ export default function ChatDialogue() {
 
   return (
     <>
-      <button
+      <p
         // variant="contained"
         // color="primary"
         // className="text-bold"
         // color={"text-blue-500"}
-        className="uppercase px-6 py-4"
+        className="pr-5 block md:inline uppercase"
         onClick={handleClickOpen}
       >
         Rooms
-      </button>
+      </p>
 
       <Dialog
         open={open}
