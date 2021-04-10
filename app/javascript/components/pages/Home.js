@@ -4,11 +4,10 @@ import Footer from "./Footer";
 import pic1 from "../../../assets/images/volunteering.svg";
 import pic2 from "../../../assets/images/04.svg";
 import pic3 from "../../../assets/images/03.svg";
-import { AllRequestContext } from "../contexts/ContextFile";
+
 
 function Home() {
-  const { allRequest } = useContext(AllRequestContext);
-  console.log(allRequest);
+
   return (
     <div>
       <div className="pb-12">
@@ -25,12 +24,12 @@ function Home() {
             </p>
           </div>
 
-          <div className="mt-8 flex">
-            <p className="bg-white px-3 mr-4 py-2 rounded-3xl font-bold uppercase text-blue-500">
+          <div className="mt-8 md:flex">
+            <p className="bg-white px-3 mr-4 py-2 rounded-3xl font-bold uppercase text-blue-500 w-max">
               Become a Volunteer
               {/* add an icon here  */}
             </p>
-            <p className="bg-white px-3 py-2 rounded-3xl font-bold uppercase text-blue-500">
+            <p className="bg-white px-3 py-2 rounded-3xl font-bold uppercase text-blue-500 w-max mt-3 md:mt-0">
               Request Help
             </p>
           </div>
