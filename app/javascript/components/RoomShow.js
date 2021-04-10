@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 // import Typography from "@material-ui/core/Typography";
 import Faker from "faker";
 import Checkbox from "@material-ui/core/Checkbox";
+import Footer from "./pages/Footer";
 
 function RoomShow({ cableApp }) {
   useEffect(() => {}, []);
@@ -353,6 +354,9 @@ function RoomShow({ cableApp }) {
               </div>
             </form>
           </div>
+          <>
+            <Footer />
+          </>
         </>
       )}
     </>

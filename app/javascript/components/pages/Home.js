@@ -8,7 +8,7 @@ import { AllRequestContext } from "../contexts/ContextFile";
 
 function Home() {
   const { allRequest } = useContext(AllRequestContext);
-  // console.log(allRequest);
+  console.log(allRequest);
   return (
     <div>
       <div className="pb-12">
