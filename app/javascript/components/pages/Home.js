@@ -12,15 +12,15 @@ function Home() {
   return (
     <div>
       <div className="pb-12">
-        <header className="h-screen bg-indigo-600 pt-36 px-20 bg-image">
+        <header className="h-screen bg-indigo-600 pt-36 px-3 md:px-20 bg-image">
           <div className="w-max">
-            <p className="text-5xl font-bold bg-blue-500 py-3 text-white px-6 w-max">
+            <p className="header-text md:text-5xl font-bold bg-blue-500 py-3 text-white px-5 md:px-6 w-max">
               Letting you focus on
             </p>
-            <p className="text-5xl font-bold bg-blue-500 py-3 text-white px-6 w-max">
+            <p className="header-text md:text-5xl font-bold bg-blue-500 py-3 text-white px-5 md:px-6 w-max">
               making an impact
             </p>
-            <p className="text-5xl font-bold bg-white py-3 text-blue-400 px-6 w-max">
+            <p className="header-text md:text-5xl font-bold bg-white py-3 text-blue-400 px-5 md:px-6 w-max ">
               on a family's life
             </p>
           </div>
@@ -35,7 +35,7 @@ function Home() {
             </p>
           </div>
         </header>
-        <div className="pt-12 mx-20">
+        <div className="mt-12 mx-6 md:mx-20">
           <h1 className="text-center text-4xl capitalize font-bold">
             Volunteer to help your <br />
             community
@@ -49,7 +49,7 @@ function Home() {
               <div className="py-3">
                 <img src={pic1} className="w-100 h-16" />
               </div>
-              <h2 className="text-3xl font-bold">Direct Help</h2>
+              <h2 className="text-3xl font-bold text-gray-800">Direct Help</h2>
               <p className="mt-3">
                 Quis esse cillum voluptate qui reprehenderit consequat
                 incididunt labore. Quis ea dolore nulla consequat incididunt
@@ -61,7 +61,7 @@ function Home() {
               <div className="py-3">
                 <img src={pic2} className="w-100 h-16" />
               </div>
-              <h2 className="text-3xl font-bold">Direct Help</h2>
+              <h2 className="text-3xl font-bold text-gray-800">Direct Help</h2>
               <p className="mt-3">
                 Quis esse cillum voluptate qui reprehenderit consequat
                 incididunt labore. Quis ea dolore nulla consequat incididunt
@@ -73,7 +73,7 @@ function Home() {
               <div className="py-3">
                 <img src={pic3} className="w-100 h-16" />
               </div>
-              <h2 className="text-3xl font-bold">Direct Help</h2>
+              <h2 className="text-3xl font-bold text-gray-800">Direct Help</h2>
               <p className="mt-3">
                 Quis esse cillum voluptate qui reprehenderit consequat
                 incididunt labore. Quis ea dolore nulla consequat incididunt
