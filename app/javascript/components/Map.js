@@ -33,7 +33,7 @@ import {
 } from "react-leaflet";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-
+import Footer from "./pages/Footer";
 function Map() {
   const { userLat } = useContext(UserLatContext);
   const { userLng } = useContext(UserLngContext);
@@ -230,74 +230,82 @@ function Map() {
   };
 
   return (
-    <div className="h-full grid mx-6">
-      <MapContainer
-        center={[userLat, userLng]} // center to users current location
-        zoom={6}
-        className="w-full col-span-2"
-      >
-        {/* <LayersControl position="topright" className="sidebar"></LayersControl> */}
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {/* <Marker position={[6.67107, 3.25564]}>
+    <>
+      <div className="h-full grid mx-6">
+        <MapContainer
+          center={[userLat, userLng]} // center to users current location
+          zoom={6}
+          className="w-full col-span-2"
+        >
+          {/* <LayersControl position="topright" className="sidebar"></LayersControl> */}
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {/* <Marker position={[6.67107, 3.25564]}>
               <Popup>
                 <p>hello</p>
               </Popup>
             </Marker>; */}
-        {allRequest.map((items, index) => {
-          const {
-            id,
-            title,
-            description,
-            lat,
-            lng,
-            request_type,
-            fulfilled,
-            user_id,
-          } = items;
-          // console.log(items); //TODO fix reload
-          if (fulfilled === false) {
-            return (
-              <Marker
-                eventHandlers={{
-                  click: (e) => {
-                    setSelectedRequest(items);
-                    setRequestId(id);
+          {allRequest.map((items, index) => {
+            const {
+              id,
+              title,
+              description,
+              lat,
+              lng,
+              request_type,
+              fulfilled,
+              user_id,
+            } = items;
+            // console.log(items); //TODO fix reload
+            if (fulfilled === false) {
+              return (
+                <Marker
+                  onDomReady={checkSameUserClick(id)}
+                  eventHandlers={{
+                    click: (e) => {
+                      setSelectedRequest(items);
+                      setRequestId(id);
 
-                    setRequestOwner(user_id);
-                    setReqDescription(description);
-                    //console.log("clicked", id);
-                  },
-                }}
-                position={[lat, lng]}
-                key={index}
-              >
-                {selectedRequest && (
-                  <Popup className="request-popup rounded">
-                    <div>
-                      <h1 className="text-xl font-bold capitalize">{title}</h1>
-                      <p>{description}</p>
-                      <p>{request_type}</p>
-                      <div className="text-right">
-                        {renderButton()}
-                        {/* <button
+                      setRequestOwner(user_id);
+                      setReqDescription(description);
+                      //console.log("clicked", id);
+                    },
+                  }}
+                  position={[lat, lng]}
+                  key={index}
+                >
+                  {selectedRequest && (
+                    <Popup className="request-popup rounded">
+                      <div>
+                        <h1 className="text-xl font-bold capitalize">
+                          {title}
+                        </h1>
+                        <p>{description}</p>
+                        <p>{request_type}</p>
+                        <div className="text-right">
+                          {renderButton()}
+                          {/* <button
                         onClick={onVolunteerClick}
                         className="bg-blue-500 px-6 py-3 text-white outline-none"
                       >
                         Volunteer
                       </button> */}
+                        </div>
                       </div>
-                    </div>
-                  </Popup>
-                )}
-              </Marker>
-            );
-          }
-        })}
-      </MapContainer>
-    </div>
+                    </Popup>
+                  )}
+                </Marker>
+              );
+            }
+          })}
+        </MapContainer>
+      </div>
+      <>
+        <Footer />
+      </>
+    </>
   );
 }
 export default Map;
