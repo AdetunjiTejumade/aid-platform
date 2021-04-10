@@ -5,13 +5,13 @@ import App from "../components/App";
 import actionCable from "actioncable";
 import { BrowserRouter as Router } from "react-router-dom";
 
-const CableApp = {}
+const CableApp = {};
 
-CableApp.cable = actionCable.createConsumer('ws://localhost:3000/cable')
+CableApp.cable = actionCable.createConsumer("ws://localhost:3000/cable");
 document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     <Router>
-      <App cableApp={CableApp} />,
+      <App cableApp={CableApp} />
     </Router>,
 
     document.getElementById("root")
