@@ -82,9 +82,9 @@ function Home() {
             </div>
           </div>
         </div>
-        <>
+        {/* <>
           <Counter />
-        </>
+        </> */}
       </div>
       <>
         <Footer />

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory, NavLink } from "react-router-dom";
-// import { Button, Tooltip } from "@afc-org/react-tailwind";
-import ToolTip from "./utils/ToolTip";
+import Tooltip from "@material-ui/core/Tooltip";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import Badge from "@material-ui/core/Badge";
+// import ToolTip from "./utils/ToolTip";
 import {
   AllRequestContext,
   UserContext,
@@ -51,17 +53,13 @@ function Navbar() {
 
           <div className="">
             <button
-              className={
-                toggle ? "hidden" : "block text-xl font-semibold"
-              }
+              className={toggle ? "hidden" : "block text-xl font-semibold"}
               onClick={Toggle}
             >
               ☰
             </button>
             <button
-              className={
-                toggle ? "block text-3xl font-semibold" : "hidden"
-              }
+              className={toggle ? "block text-3xl font-semibold" : "hidden"}
               onClick={Toggle}
             >
               &times;
@@ -72,6 +70,11 @@ function Navbar() {
           <nav className="overlay-content font-extrabold text-3xl text-blue-500 px-6 mb-6">
             {userData.isLoggedIn ? (
               <>
+                <Tooltip title="Unfufilled Request" placement="left">
+                  <Badge badgeContent={unfufilledRequest} color="primary">
+                    <HelpOutlineIcon style={{ color: "white" }} />
+                  </Badge>
+                </Tooltip>
                 <Link to="/map" className="md:mr-12 block md:inline">
                   Map
                 </Link>
@@ -109,6 +112,11 @@ function Navbar() {
           <nav className="md:block ">
             {userData.isLoggedIn ? (
               <>
+                <Tooltip title="Unfufilled Request" placement="left" className="mr-5">
+                  <Badge badgeContent={unfufilledRequest} color="primary">
+                    <HelpOutlineIcon className="text-blue-500"/>
+                  </Badge>
+                </Tooltip>
                 <Link to="/map" className="pr-5 block md:inline uppercase">
                   Map
                 </Link>
