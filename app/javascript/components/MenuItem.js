@@ -11,9 +11,9 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
     //  console.log(request)
     //  requestToRepublish(request.id)
     let rType =
-      request.request_type === "material-need"
-        ? `one-time-task`
-        : `material-need`;
+      request.request_type === "material_need"
+        ? `one_time_task`
+        : `material_need`;
     let obj = {
       request_type: rType,
     };
