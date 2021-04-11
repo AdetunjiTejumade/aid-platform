@@ -7,7 +7,7 @@ import axios from 'axios';
 
 
 export default function MenuRoomItem({room}) {
-   
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let {allRooms, setAllRooms } = useContext(AllRoomContext)
         //  console.log(room)
         //  console.log(allRooms)
@@ -26,6 +26,7 @@ export default function MenuRoomItem({room}) {
        let res = axios
          .patch(`https://helping-neighbours.herokuapp.com/conversations/${room.id}/`, obj, {
            headers: {
+            "X-CSRF-Token": csrf,
              Authorization: `Basic ${token}`,
            },
          })

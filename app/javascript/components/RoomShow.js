@@ -23,7 +23,7 @@ function RoomShow({ cableApp }) {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   let { currentRoom, setCurrentRoom } = useContext(RoomDataContext);
   let { userId } = useContext(UserIdContext);
   let { chatRoomId } = useContext(ChatRoomIdContext);
@@ -79,6 +79,7 @@ function RoomShow({ cableApp }) {
     let res = axios
       .patch(`https://helping-neighbours.herokuapp.com/requests/${id}/`, obj, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -100,6 +101,7 @@ function RoomShow({ cableApp }) {
     let res = await axios
       .get(`https://helping-neighbours.herokuapp.com/deactivate/${id}/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -131,6 +133,7 @@ function RoomShow({ cableApp }) {
     let res = await axios
       .get(`https://helping-neighbours.herokuapp.com/deactivaterooms/${id}/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -160,6 +163,7 @@ function RoomShow({ cableApp }) {
     let res = axios
       .patch(`https://helping-neighbours.herokuapp.com/requests_users/${id}/`, obj, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -181,6 +185,7 @@ function RoomShow({ cableApp }) {
     let res = await axios
       .get(`https://helping-neighbours.herokuapp.com/conversations/${id}/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -246,11 +251,12 @@ function RoomShow({ cableApp }) {
     }
 
     inputRef.current.value = "";
-
+    
     let res = axios
       .post("https://helping-neighbours.herokuapp.com/messages/", message, {
         headers: {
           Authorization: `Basic ${token}`,
+          "X-CSRF-Token": csrf,
           "Content-Type": "application/json",
           Accept: "application/json",
         },

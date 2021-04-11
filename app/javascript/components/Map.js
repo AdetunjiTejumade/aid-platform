@@ -42,7 +42,7 @@ function Map() {
 
   const url = "https://helping-neighbours.herokuapp.com/requests/";
   //const header = JSON.parse(localStorage.getItem("header"));
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   let history = useHistory();
 
   const { selectedRequest, setSelectedRequest } = useContext(
@@ -79,10 +79,11 @@ function Map() {
     let tempArray = [roomObj, ...allRooms];
 
     const token = JSON.parse(localStorage.getItem("token"));
-
+    
     let res = axios
       .post("https://helping-neighbours.herokuapp.com/conversations/", roomObj, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -116,6 +117,7 @@ function Map() {
     const res = await axios
       .post("https://helping-neighbours.herokuapp.com/requests_users/", data, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -149,6 +151,7 @@ function Map() {
     const res = await axios
       .post("https://helping-neighbours.herokuapp.com/requests_rooms/", data, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -173,6 +176,7 @@ function Map() {
 
         {
           headers: {
+            "X-CSRF-Token": csrf,
             Authorization: `Basic ${token}`,
           },
         }
@@ -197,6 +201,7 @@ function Map() {
       let res = await axios
         .get(`https://helping-neighbours.herokuapp.com/users/${id}/`, {
           headers: {
+            "X-CSRF-Token": csrf,
             Authorization: `Basic ${token}`,
           },
         })

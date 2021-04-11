@@ -114,12 +114,14 @@ const App = ({ cableApp }) => {
       history.push("/login");
     }
   };
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const getAllRequest = async () => {
+    
     let res = await axios
       .get("https://helping-neighbours.herokuapp.com/requests/", {
         headers: {
           Authorization: `Basic ${userData.token}`,
+          "X-CSRF-Token": csrf,
         },
       })
       .then(
@@ -166,6 +168,7 @@ const App = ({ cableApp }) => {
     let res = await axios
       .get("https://helping-neighbours.herokuapp.com/users/", {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${userData.token}`,
         },
       })
@@ -209,6 +212,7 @@ const App = ({ cableApp }) => {
     let res = await axios
       .get(`https://helping-neighbours.herokuapp.com/conversations/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -229,6 +233,7 @@ const App = ({ cableApp }) => {
     let res = await axios
       .get(`https://helping-neighbours.herokuapp.com/requests_users/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })

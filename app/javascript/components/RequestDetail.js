@@ -4,6 +4,7 @@ import { AuthContext } from "./App";
 import axios from "axios";
 
 function RequestDetail() {
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const { state, dispatch } = React.useContext(AuthContext);
   const userId = state.currentUser.id;
   const volunteers = state.allVolunteers;
@@ -17,6 +18,7 @@ function RequestDetail() {
     axios
       .get(url, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })

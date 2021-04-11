@@ -15,7 +15,7 @@ export default function RoomItem({ room, allVolunteers }) {
   
   // console.log(room)
   // console.log(allVolunteers);
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   let { setRequiresRepublishing } = useContext(RepublishingContext)
 
   let { currentRoom, setCurrentRoom } = useContext(RoomDataContext);
@@ -32,6 +32,7 @@ export default function RoomItem({ room, allVolunteers }) {
     let res = await axios
       .get(`https://helping-neighbours.herokuapp.com/conversations/${id}/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })

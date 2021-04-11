@@ -22,7 +22,7 @@ function Login() {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const onSubmit = (event) => {
     setLoading(true);
 
@@ -36,7 +36,11 @@ function Login() {
           email: email,
           password: password,
         },
-      })
+      },{
+        headers: {
+          "X-CSRF-Token": csrf,
+        },
+      } )
       .then((response) => {
         setUserData({
           token: response.data.jwt,

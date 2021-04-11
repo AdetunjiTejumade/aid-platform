@@ -12,7 +12,7 @@ const ITEM_HEIGHT = 48;
 export default function LongMenu() {
   useEffect(() => {}, []);
 
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   let { userId } = useContext(UserIdContext);
 
  let [roomToRepublish, setRoomToRepublish] = useState([])
@@ -25,6 +25,7 @@ export default function LongMenu() {
     let res = await axios
       .get("https://helping-neighbours.herokuapp.com/republishroom/", {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })

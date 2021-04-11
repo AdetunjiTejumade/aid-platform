@@ -13,7 +13,7 @@ function SignUp() {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -59,6 +59,10 @@ function SignUp() {
             auth: {
               avatar: blob.signed_id,
             },
+          },{
+            headers: {
+              "X-CSRF-Token": csrf,
+            },
           })
           .then(
             (response) => {
@@ -82,7 +86,6 @@ function SignUp() {
   const onSubmit = async (e) => {
     setLoading(true);
 
-
     const data = {
       first_name: firstName,
       last_name: lastName,
@@ -97,6 +100,10 @@ function SignUp() {
           last_name: lastName,
           email: email,
           password: password,
+        },
+      },{
+        headers: {
+          "X-CSRF-Token": csrf,
         },
       })
       .then((response) => {
