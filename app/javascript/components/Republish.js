@@ -19,7 +19,7 @@ export default function LongMenu() {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = await axios
-      .get("http://localhost:3000/republish/", {
+      .get("https://helping-neighbours.herokuapp.com/republish/", {
         headers: {
           Authorization: `Basic ${token}`,
         },

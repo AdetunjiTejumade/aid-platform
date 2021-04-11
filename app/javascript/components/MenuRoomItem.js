@@ -24,7 +24,7 @@ export default function MenuRoomItem({room}) {
           
 
        let res = axios
-         .patch(`http://localhost:3000/conversations/${room.id}`, obj, {
+         .patch(`https://helping-neighbours.herokuapp.com/conversations/${room.id}`, obj, {
            headers: {
              Authorization: `Basic ${token}`,
            },
