@@ -77,7 +77,7 @@ function RoomShow({ cableApp }) {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = axios
-      .patch(`https://helping-neighbours.herokuapp.com/requests/${id}`, obj, {
+      .patch(`https://helping-neighbours.herokuapp.com/requests/${id}/`, obj, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -98,7 +98,7 @@ function RoomShow({ cableApp }) {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/deactivate/${id}`, {
+      .get(`https://helping-neighbours.herokuapp.com/deactivate/${id}/`, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -129,7 +129,7 @@ function RoomShow({ cableApp }) {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/deactivaterooms/${id}`, {
+      .get(`https://helping-neighbours.herokuapp.com/deactivaterooms/${id}/`, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -158,7 +158,7 @@ function RoomShow({ cableApp }) {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = axios
-      .patch(`https://helping-neighbours.herokuapp.com/requests_users/${id}`, obj, {
+      .patch(`https://helping-neighbours.herokuapp.com/requests_users/${id}/`, obj, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -179,7 +179,7 @@ function RoomShow({ cableApp }) {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/conversations/${id}`, {
+      .get(`https://helping-neighbours.herokuapp.com/conversations/${id}/`, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -248,7 +248,7 @@ function RoomShow({ cableApp }) {
     inputRef.current.value = "";
 
     let res = axios
-      .post("https://helping-neighbours.herokuapp.com/messages", message, {
+      .post("https://helping-neighbours.herokuapp.com/messages/", message, {
         headers: {
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",

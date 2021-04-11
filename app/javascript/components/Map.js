@@ -81,7 +81,7 @@ function Map() {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = axios
-      .post("https://helping-neighbours.herokuapp.com/conversations", roomObj, {
+      .post("https://helping-neighbours.herokuapp.com/conversations/", roomObj, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -114,7 +114,7 @@ function Map() {
     const token = JSON.parse(localStorage.getItem("token"));
 
     const res = await axios
-      .post("https://helping-neighbours.herokuapp.com/requests_users", data, {
+      .post("https://helping-neighbours.herokuapp.com/requests_users/", data, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -147,7 +147,7 @@ function Map() {
     const token = JSON.parse(localStorage.getItem("token"));
 
     const res = await axios
-      .post("https://helping-neighbours.herokuapp.com/requests_rooms", data, {
+      .post("https://helping-neighbours.herokuapp.com/requests_rooms/", data, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -169,7 +169,7 @@ function Map() {
 
     let res = await axios
       .get(
-        `https://helping-neighbours.herokuapp.com/samevolunteer/${id}`,
+        `https://helping-neighbours.herokuapp.com/samevolunteer/${id}/`,
 
         {
           headers: {
@@ -195,7 +195,7 @@ function Map() {
       const token = JSON.parse(localStorage.getItem("token"));
 
       let res = await axios
-        .get(`https://helping-neighbours.herokuapp.com/users/${id}`, {
+        .get(`https://helping-neighbours.herokuapp.com/users/${id}/`, {
           headers: {
             Authorization: `Basic ${token}`,
           },

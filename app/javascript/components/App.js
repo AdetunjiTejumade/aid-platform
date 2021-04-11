@@ -164,7 +164,7 @@ const App = ({ cableApp }) => {
 
   const getCurrentUser = async () => {
     let res = await axios
-      .get("https://helping-neighbours.herokuapp.com/users", {
+      .get("https://helping-neighbours.herokuapp.com/users/", {
         headers: {
           Authorization: `Basic ${userData.token}`,
         },

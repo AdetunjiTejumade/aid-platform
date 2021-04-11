@@ -79,7 +79,7 @@ function RequestForm() {
   const sendRequest = async (params) => {
     setLoading(true);
     let res = axios
-      .post("https://helping-neighbours.herokuapp.com/requests", params, {
+      .post("https://helping-neighbours.herokuapp.com/requests/", params, {
         headers: {
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",

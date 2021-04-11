@@ -58,7 +58,7 @@ function Routes({cableApp}) {
   };
   const getRoomData = (id) => {
     axios
-      .get(`https://helping-neighbours.herokuapp.com/conversations/${id}`, {
+      .get(`https://helping-neighbours.herokuapp.com/conversations/${id}/`, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -88,7 +88,7 @@ function Routes({cableApp}) {
       room_id: roomId,
     };
     axios
-      .post("https://helping-neighbours.herokuapp.com/messages", message, {
+      .post("https://helping-neighbours.herokuapp.com/messages/", message, {
         headers: {
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",
