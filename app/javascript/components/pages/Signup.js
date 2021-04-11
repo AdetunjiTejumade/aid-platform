@@ -48,14 +48,14 @@ function SignUp() {
   const uploadFile = (file, user) => {
     const upload = new DirectUpload(
       file,
-      "https://helping-neighbours.herokuapp.com/rails/active_storage/direct_uploads"
+      "https://helping-neighboors.herokuapp.com/rails/active_storage/direct_uploads"
     );
     upload.create((error, blob) => {
       if (error) {
         // console.log(error)
       } else {
         let res = axios
-          .patch(`https://helping-neighbours.herokuapp.com/${user.user.id}`, {
+          .patch(`https://helping-neighboors.herokuapp.com/${user.user.id}`, {
             auth: {
               avatar: blob.signed_id,
             },
@@ -91,7 +91,7 @@ function SignUp() {
     };
 
     let res = await axios
-      .post("https://helping-neighbours.herokuapp.com/auth/signup", {
+      .post("https://helping-neighboors.herokuapp.com/auth/signup", {
         auth: {
           first_name: firstName,
           last_name: lastName,

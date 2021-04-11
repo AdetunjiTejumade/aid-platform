@@ -117,7 +117,7 @@ const App = ({ cableApp }) => {
 
   const getAllRequest = async () => {
     let res = await axios
-      .get("https://helping-neighbours.herokuapp.com/requests/", {
+      .get("https://helping-neighboors.herokuapp.com/requests/", {
         headers: {
           Authorization: `Basic ${userData.token}`,
         },
@@ -164,7 +164,7 @@ const App = ({ cableApp }) => {
 
   const getCurrentUser = async () => {
     let res = await axios
-      .get("https://helping-neighbours.herokuapp.com/users", {
+      .get("https://helping-neighboors.herokuapp.com/users", {
         headers: {
           Authorization: `Basic ${userData.token}`,
         },
@@ -207,7 +207,7 @@ const App = ({ cableApp }) => {
   const getAllRooms = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/conversations/`, {
+      .get(`https://helping-neighboors.herokuapp.com/conversations/`, {
         headers: {
           Authorization: `Basic ${token}`,
         },
@@ -227,7 +227,7 @@ const App = ({ cableApp }) => {
   const getAllVolunteers = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/requests_users/`, {
+      .get(`https://helping-neighboors.herokuapp.com/requests_users/`, {
         headers: {
           Authorization: `Basic ${token}`,
         },

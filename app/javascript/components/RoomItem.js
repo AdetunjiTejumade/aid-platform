@@ -30,7 +30,7 @@ export default function RoomItem({ room, allVolunteers }) {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/conversations/${id}`, {
+      .get(`https://helping-neighboors.herokuapp.com/conversations/${id}`, {
         headers: {
           Authorization: `Basic ${token}`,
         },

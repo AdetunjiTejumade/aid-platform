@@ -31,7 +31,7 @@ function Login() {
       password: password,
     };
     let res = axios
-      .post("https://helping-neighbours.herokuapp.com/auth/signin", {
+      .post("https://helping-neighboors.herokuapp.com/auth/signin", {
         auth: {
           email: email,
           password: password,

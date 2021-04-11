@@ -12,7 +12,7 @@ function RequestDetail() {
   const [request, setRequest] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
   const { requestId } = useParams();
-  const url = `https://helping-neighbours.herokuapp.com/requests/${requestId}`;
+  const url = `https://helping-neighboors.herokuapp.com/requests/${requestId}`;
   useEffect(() => {
     axios
       .get(url, {

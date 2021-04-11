@@ -21,7 +21,7 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = axios
-      .patch(`https://helping-neighbours.herokuapp.com/requests/${request.id}`, obj, {
+      .patch(`https://helping-neighboors.herokuapp.com/requests/${request.id}`, obj, {
         headers: {
           Authorization: `Basic ${token}`,
         },
