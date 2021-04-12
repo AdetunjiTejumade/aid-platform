@@ -6,6 +6,6 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") %>
+  url: redis://redistogo:f0373ecce9e8a40bd8897995fcd7987f@scat.redistogo.com:11669/
   #  { "redis://localhost:6379/1" }
   channel_prefix: Helping_Hands_production

@@ -38,10 +38,11 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  config.web_socket_server_url = "wss://helping-neighboors.herokuapp.com/cable"
   # Mount Action Cable outside main process or domain.
-  config.action_cable.mount_path = "/cable"
-  config.action_cable.url = 'wss://helping-neighboors.herokuapp.com/cable'
-  config.action_cable.allowed_request_origins = [ 'https://helping-neighboors.herokuapp.com/']
+  # config.action_cable.mount_path = "/cable"
+  # config.action_cable.url = 'wss://helping-neighboors.herokuapp.com/cable'
+  config.action_cable.allowed_request_origins = [ 'https://helping-neighboors.herokuapp.com/', 'http://helping-neighboors.herokuapp.com/']
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
