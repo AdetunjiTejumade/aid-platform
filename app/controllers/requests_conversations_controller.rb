@@ -1,4 +1,4 @@
-class RequestsConversationController < ApplicationController
+class RequestsConversationsController < ApplicationController
     before_action :set_requests_conversation, only: [:show, :edit, :update, :destroy]
 
     # GET /requests_conversations

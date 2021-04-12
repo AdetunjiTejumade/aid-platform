@@ -147,7 +147,7 @@ function Map() {
     const token = JSON.parse(localStorage.getItem("token"));
 
     const res = await axios
-      .post("https://helping-neighboors.herokuapp.com/requests_rooms", data, {
+      .post("https://helping-neighboors.herokuapp.com/requests_conversations", data, {
         headers: {
           Authorization: `Basic ${token}`,
         },
