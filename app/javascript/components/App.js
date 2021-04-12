@@ -106,7 +106,8 @@ const App = ({ cableApp }) => {
       setUserData({
         isLoggedIn: true,
       });
-      // history.push("/map");
+      console.log("loggedIn");
+      history.push("/map");
     } else if (!token || !userData.user) {
       setUserData({
         isLoggedIn: false,
