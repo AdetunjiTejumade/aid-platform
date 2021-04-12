@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 // import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import RequestForm from "./NewRequest";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 import axios from "axios";
 import {
   UserContext,
@@ -40,7 +40,7 @@ import {
   RepublishingContext,
 } from "./contexts/ContextFile";
 import Navbar from "./Navbar";
-import Map from "./Map"
+import Map from "./Map";
 import RoomShow from "./RoomShow";
 
 const App = ({ cableApp }) => {
@@ -50,7 +50,7 @@ const App = ({ cableApp }) => {
     user: JSON.parse(localStorage.getItem("user")) || null,
     isLoggedIn: JSON.parse(localStorage.getItem("user")) ? true : false,
   });
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const [userLat, setUserLat] = useState(0);
   const [userLng, setUserLng] = useState(0);
   const [allRequest, setAllRequest] = useState([]);
@@ -120,6 +120,7 @@ const App = ({ cableApp }) => {
     let res = await axios
       .get("https://helping-neighboors.herokuapp.com/requests/", {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${userData.token}`,
         },
       })
@@ -167,6 +168,7 @@ const App = ({ cableApp }) => {
     let res = await axios
       .get("https://helping-neighboors.herokuapp.com/users", {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${userData.token}`,
         },
       })
@@ -207,9 +209,11 @@ const App = ({ cableApp }) => {
 
   const getAllRooms = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let res = await axios
       .get(`https://helping-neighboors.herokuapp.com/conversations/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -227,9 +231,11 @@ const App = ({ cableApp }) => {
 
   const getAllVolunteers = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let res = await axios
       .get(`https://helping-neighboors.herokuapp.com/requests_users/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -365,7 +371,7 @@ const App = ({ cableApp }) => {
 
                                                                   <Switch>
                                                                     {/* <Route exact path="/" component={Home} /> */}
-{/* TODO add login routes */}
+                                                                    {/* TODO add login routes */}
                                                                     <Route
                                                                       exact
                                                                       path="/signup"
@@ -391,10 +397,16 @@ const App = ({ cableApp }) => {
                                                                         }
                                                                       />
                                                                     </PrivateRoute>
-                                                                    <PrivateRoute exact path="/new">
+                                                                    <PrivateRoute
+                                                                      exact
+                                                                      path="/new"
+                                                                    >
                                                                       <RequestForm />
                                                                     </PrivateRoute>
-                                                                   <PrivateRoute exact path="/map">
+                                                                    <PrivateRoute
+                                                                      exact
+                                                                      path="/map"
+                                                                    >
                                                                       <Map />
                                                                     </PrivateRoute>
                                                                     {/* TODO add map */}

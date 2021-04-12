@@ -1,7 +1,6 @@
-import React, {useContext,  useEffect} from 'react';
-import RoomItem from './RoomItem';
-import {UserIdContext, AllVolunteerContext } from './contexts/ContextFile';
-
+import React, { useContext, useEffect } from "react";
+import RoomItem from "./RoomItem";
+import { UserIdContext, AllVolunteerContext } from "./contexts/ContextFile";
 
 export default function RoomList({ allRooms, requiresRepublishing }) {
   useEffect(() => {}, []);
@@ -18,12 +17,10 @@ export default function RoomList({ allRooms, requiresRepublishing }) {
       if (room.receiver_id === userId || room.sender_id === userId) {
         //  console.log(room)
         return (
-        
           <div key={room.id} style={{ display: "flex" }}>
             {/* Room {roomCount}:  &nbsp; &nbsp; */}
             <RoomItem allVolunteers={allVolunteers} room={room} />
           </div>
-          
         );
       }
     });

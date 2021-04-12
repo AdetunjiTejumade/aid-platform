@@ -79,6 +79,7 @@ function RoomShow({ cableApp }) {
     let res = axios
       .patch(`https://helping-neighboors.herokuapp.com/requests/${id}`, obj, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -96,10 +97,12 @@ function RoomShow({ cableApp }) {
 
   const checkActiveRequest = async (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
       .get(`https://helping-neighboors.herokuapp.com/deactivate/${id}`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -127,10 +130,12 @@ function RoomShow({ cableApp }) {
 
   const deactivateRooms = async (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
       .get(`https://helping-neighboors.herokuapp.com/deactivaterooms/${id}`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -156,13 +161,19 @@ function RoomShow({ cableApp }) {
     };
 
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = axios
-      .patch(`https://helping-neighboors.herokuapp.com/requests_users/${id}`, obj, {
-        headers: {
-          Authorization: `Basic ${token}`,
-        },
-      })
+      .patch(
+        `https://helping-neighboors.herokuapp.com/requests_users/${id}`,
+        obj,
+        {
+          headers: {
+            "X-CSRF-Token": csrf,
+            Authorization: `Basic ${token}`,
+          },
+        }
+      )
       .then(
         (response) => {
           //  console.log("success", response.data);
@@ -177,10 +188,12 @@ function RoomShow({ cableApp }) {
 
   const getRoomData = async (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
       .get(`https://helping-neighboors.herokuapp.com/conversations/${id}`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -232,6 +245,7 @@ function RoomShow({ cableApp }) {
   const onSubmit = (e) => {
     console.log("clicked");
     const token = JSON.parse(localStorage.getItem("token"));
+
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let message = {
       body: inputRef.current.value,
@@ -250,6 +264,7 @@ function RoomShow({ cableApp }) {
     let res = axios
       .post("https://helping-neighboors.herokuapp.com/messages", message, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -257,9 +272,10 @@ function RoomShow({ cableApp }) {
       })
       .then((response) => {
         console.log("Success", response.data);
-      }).catch((error) => {
-        console.error("failed");
       })
+      .catch((error) => {
+        console.error("failed");
+      });
 
     return res;
   };

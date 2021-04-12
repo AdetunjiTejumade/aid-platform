@@ -19,10 +19,12 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
     };
 
     const token = JSON.parse(localStorage.getItem("token"));
+const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = axios
       .patch(`https://helping-neighboors.herokuapp.com/requests/${request.id}`, obj, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })

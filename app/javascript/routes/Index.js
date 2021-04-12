@@ -22,6 +22,7 @@ export const RoomDataContext = createContext();
 export const AllRoomsContext = createContext();
 function Routes({cableApp}) {
   const token = JSON.parse(localStorage.getItem("token"));
+const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const history = useHistory();
  
   const { state, dispatch } = useContext(AuthContext);
@@ -41,6 +42,7 @@ function Routes({cableApp}) {
     axios
       .get(`http://localhost:3000/conversations/`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -60,6 +62,7 @@ function Routes({cableApp}) {
     axios
       .get(`http://localhost:3000/conversations/${id}`, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -90,6 +93,7 @@ function Routes({cableApp}) {
     axios
       .post("http://localhost:3000/messages", message, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",
         },

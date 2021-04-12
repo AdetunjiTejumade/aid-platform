@@ -17,10 +17,12 @@ export default function LongMenu() {
   // request greater that 24hrs, are not fulfilled and have less than 5 volunteers
   const getAllRequestToRepublish = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
       .get("https://helping-neighboors.herokuapp.com/republish/", {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })

@@ -112,9 +112,13 @@ function Navbar() {
           <nav className="md:block ">
             {userData.isLoggedIn ? (
               <>
-                <Tooltip title="Unfufilled Request" placement="left" className="mr-5">
+                <Tooltip
+                  title="Unfufilled Request"
+                  placement="left"
+                  className="mr-5"
+                >
                   <Badge badgeContent={unfufilledRequest} color="primary">
-                    <HelpOutlineIcon className="text-blue-500"/>
+                    <HelpOutlineIcon className="text-blue-500" />
                   </Badge>
                 </Tooltip>
                 <Link to="/map" className="pr-5 block md:inline uppercase">

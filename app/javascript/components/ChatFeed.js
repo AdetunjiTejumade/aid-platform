@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class ChatFeed extends Component {
   componentDidUpdate() {
@@ -8,7 +8,7 @@ class ChatFeed extends Component {
 
   displayMessages = (messages) => {
     return messages.map((message) => {
-     // const avatar = this.whichAvatar(message);
+      // const avatar = this.whichAvatar(message);
       return (
         <ChatMessage
           key={message.id}
@@ -20,12 +20,12 @@ class ChatFeed extends Component {
     });
   };
 
-//   whichAvatar = (message) => {
-//     const user = this.props.room.users.data.find(
-//       (user) => parseInt(user.id) === message.user_id
-//     );
-//     return user.attributes.avatar_url;
-//   };
+  //   whichAvatar = (message) => {
+  //     const user = this.props.room.users.data.find(
+  //       (user) => parseInt(user.id) === message.user_id
+  //     );
+  //     return user.attributes.avatar_url;
+  //   };
 
   render() {
     return (
@@ -43,4 +43,4 @@ class ChatFeed extends Component {
   }
 }
 
-export default ChatFeed
+export default ChatFeed;

@@ -11,12 +11,14 @@ function RequestDetail() {
   console.log(state);
   const [request, setRequest] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const { requestId } = useParams();
   const url = `https://helping-neighboors.herokuapp.com/requests/${requestId}`;
   useEffect(() => {
     axios
       .get(url, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -48,9 +50,7 @@ function RequestDetail() {
         </div>
       </div>
 
-      <div>
-          
-      </div>
+      <div></div>
     </div>
   );
 }

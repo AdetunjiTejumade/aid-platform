@@ -76,11 +76,13 @@ function RequestForm() {
   };
 
   const token = JSON.parse(localStorage.getItem("token"));
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const sendRequest = async (params) => {
     setLoading(true);
     let res = axios
       .post("https://helping-neighboors.herokuapp.com/requests", params, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
           "Content-Type": "application/json",
         },

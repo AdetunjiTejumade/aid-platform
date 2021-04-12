@@ -51,8 +51,8 @@ export default function ChatDialogue() {
         <DialogTitle id="alert-dialog-slide-title">{"ChatRooms"}</DialogTitle>
         <DialogContent>
           {/* <DialogContentText id="alert-dialog-slide-description"> */}
-            <RoomList allRooms={allRooms} />
-            <RepublishRoom />
+          <RoomList allRooms={allRooms} />
+          <RepublishRoom />
           {/* </DialogContentText> */}
         </DialogContent>
         {/* <DialogActions>

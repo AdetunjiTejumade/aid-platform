@@ -79,10 +79,12 @@ function Map() {
     let tempArray = [roomObj, ...allRooms];
 
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = axios
       .post("https://helping-neighboors.herokuapp.com/conversations", roomObj, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -112,10 +114,12 @@ function Map() {
       user_id: userId,
     };
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const res = await axios
       .post("https://helping-neighboors.herokuapp.com/requests_users", data, {
         headers: {
+          "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
@@ -145,13 +149,19 @@ function Map() {
     };
 
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const res = await axios
-      .post("https://helping-neighboors.herokuapp.com/requests_conversations", data, {
-        headers: {
-          Authorization: `Basic ${token}`,
-        },
-      })
+      .post(
+        "https://helping-neighboors.herokuapp.com/requests_conversations",
+        data,
+        {
+          headers: {
+            "X-CSRF-Token": csrf,
+            Authorization: `Basic ${token}`,
+          },
+        }
+      )
       .then(
         (response) => {
           // console.log(response.data);
@@ -166,6 +176,7 @@ function Map() {
 
   const checkSameUserClick = async (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
       .get(
@@ -173,6 +184,7 @@ function Map() {
 
         {
           headers: {
+            "X-CSRF-Token": csrf,
             Authorization: `Basic ${token}`,
           },
         }
@@ -193,10 +205,12 @@ function Map() {
   const getRequestOwner = async (id) => {
     if (id) {
       const token = JSON.parse(localStorage.getItem("token"));
+      const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
       let res = await axios
         .get(`https://helping-neighboors.herokuapp.com/users/${id}`, {
           headers: {
+            "X-CSRF-Token": csrf,
             Authorization: `Basic ${token}`,
           },
         })
