@@ -125,13 +125,13 @@ function RequestForm() {
   //41,aina aladi street,Alagbado,lagos,nigeria We need volunteers to help us in cleaning the community center
   const onSubmit = () => {
     const getCoordinates = () => {
-      const url = `http://api.positionstack.com/v1/forward?access_key=699a6449c786b9542657783c908f666a&query=${address}`;
+      // const url = `http://api.positionstack.com/v1/forward?access_key=699a6449c786b9542657783c908f666a&query=${address}`;
+      const url = `https://api.opencagedata.com/geocode/v1/json?key=4d0dbb0e5630425db93445f959182b5a&q=${address}`;
       axios
         .get(url)
         .then((result) => {
-          setLat((prev) => result.data.data[0].latitude);
-          setLng((prev) => result.data.data[0].longitude);
-          console.log(result.data.data[0].latitude);
+          setLat((prev) => result.data.results[0].geometry.lat);
+          setLng((prev) => result.data.results[0].geometry.lng);
         })
         .catch((err) => {
           console.log(err);
