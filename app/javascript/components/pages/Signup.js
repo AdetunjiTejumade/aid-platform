@@ -55,7 +55,7 @@ function SignUp() {
         // console.log(error)
       } else {
         let res = axios
-          .patch(`https://helping-neighboors.herokuapp.com/${user.user.id}`, {
+          .patch(`https://helping-neighboors.herokuapp.com/users/${user.user.id}`, {
             auth: {
               avatar: blob.signed_id,
             },
