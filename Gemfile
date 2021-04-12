@@ -29,7 +29,7 @@ gem "knock", github: "nsarno/knock", branch: "master",
 gem 'active_model_serializers', '~> 0.10.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
-
+gem 'dotenv-rails'
 gem 'redis-namespace'
 gem 'redis-rails'
 
@@ -49,6 +49,7 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'action-cable-testing'
 end
 
 group :development do
