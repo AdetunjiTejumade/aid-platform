@@ -96,7 +96,7 @@ const App = ({ cableApp }) => {
     getAllRooms();
     getAllVolunteers();
 
-    document.title = "Feed | Peeps";
+    document.title = "Feed | Helping Neighbors";
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
