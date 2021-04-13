@@ -146,7 +146,7 @@ function RequestForm() {
           <h1 className="font-bold text-5xl text-white">Request Help</h1>
         </header>
 
-        <form className="pt-20 px-4 md:px-20" onSubmit={handleSubmit(onSubmit)}>
+        <form className="pt-20 px-12 md:px-20" onSubmit={handleSubmit(onSubmit)}>
           <div className="group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
             <label className=" block text-2xl ">
               Title{" "}

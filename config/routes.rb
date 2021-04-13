@@ -38,5 +38,7 @@ Rails.application.routes.draw do
   match '/logout', to: 'pages#index', via:[:get]
   match '/signup', to: 'pages#index', via:[:get]
   match '/login', to: 'pages#index', via:[:get]
+  match '/rooms/:id', to: 'pages#index', via:[:get]
+  # match '/login', to: 'pages#index', via:[:get]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -37,7 +37,7 @@ export default function ChatDialogue() {
         className="pr-5 block md:inline uppercase"
         onClick={handleClickOpen}
       >
-        Rooms
+        Messages
       </p>
 
       <Dialog

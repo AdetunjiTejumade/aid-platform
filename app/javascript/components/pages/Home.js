@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import pic1 from "../../../assets/images/volunteering.svg";
 import pic2 from "../../../assets/images/04.svg";
 import pic3 from "../../../assets/images/03.svg";
-
+import { Link, useHistory } from "react-router-dom";
 
 function Home() {
 
@@ -25,13 +25,13 @@ function Home() {
           </div>
 
           <div className="mt-8 md:flex">
-            <p className="bg-white px-3 mr-4 py-2 rounded-3xl font-bold uppercase text-blue-500 w-max">
+            <Link className="bg-white px-3 mb-4 md:mb-0 md:mr-4 py-2 rounded-3xl font-bold uppercase text-blue-500 w-max block" to="/map">
               Become a Volunteer
               {/* add an icon here  */}
-            </p>
-            <p className="bg-white px-3 py-2 rounded-3xl font-bold uppercase text-blue-500 w-max mt-3 md:mt-0">
+            </Link>
+            <Link className="bg-white px-3 py-2 rounded-3xl font-bold uppercase text-blue-500 w-max mt-3 md:mt-0" to="/new">
               Request Help
-            </p>
+            </Link>
           </div>
         </header>
         <div className="mt-12 mx-6 md:mx-20">

@@ -8,6 +8,8 @@ import {
   RepublishingContext,
 } from "./contexts/ContextFile";
 import { Link } from "react-router-dom";
+import ChatIcon from '@material-ui/icons/Chat';
+import { grey } from "@material-ui/core/colors";
 
 export default function RoomItem({ room, allVolunteers }) {
   useEffect(() => {}, []);
@@ -70,7 +72,7 @@ export default function RoomItem({ room, allVolunteers }) {
     }
   };
 
-  console.log(selectedRequest);
+  // console.log(selectedRequest);
 
   const getDesiredVolunteer = (arr) => {
     const vol = allVolunteers.find(
@@ -82,8 +84,11 @@ export default function RoomItem({ room, allVolunteers }) {
   };
 
   return (
-    <Link to={`/rooms/${room.id || currentRoom.room.id}`} onClick={handleClick}>
-      {room.name}
+    <>
+    <Link to={`/rooms/${room.id || currentRoom.room.id}`} onClick={handleClick} className="mb-3">
+      {room.name} <ChatIcon style={{ color: grey[500] }} />
     </Link>
+    <hr />
+    </>
   );
 }

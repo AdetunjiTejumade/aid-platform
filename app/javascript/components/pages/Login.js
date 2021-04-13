@@ -65,7 +65,7 @@ function Login() {
         <header className="bg-blue-500 px-12 h-36 grid content-center">
           <h1 className="font-bold text-5xl text-white">Login</h1>
         </header>
-        <form className="pt-20 px-20" onSubmit={handleSubmit(onSubmit)}>
+        <form className="pt-20 px-12 md:px-20" onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
             <label className=" block text-2xl ">
               E-mail{" "}
@@ -111,6 +111,11 @@ function Login() {
           >
             {loading ? "Loading..." : "Login"}
           </button>
+          <div className="text-right">
+            <p className="">
+              Don't own an account? <Link to="/signup">Sign up</Link>
+            </p>
+          </div>
         </form>
       </div>
       <>

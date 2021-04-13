@@ -75,10 +75,10 @@ function Navbar() {
                     <HelpOutlineIcon style={{ color: "white" }} />
                   </Badge>
                 </Tooltip>
-                <Link to="/map" className="md:mr-12 block md:inline">
+                <Link to="/map" className="md:mr-12 block md:inline" onClick={Toggle}>
                   Map
                 </Link>
-                <Link to="/new" className="md:mr-12 block md:inline">
+                <Link to="/new" className="md:mr-12 block md:inline" onClick={Toggle}>
                   Add Request
                 </Link>
                 <Republish />
@@ -95,6 +95,8 @@ function Navbar() {
               <Link
                 to="/signup"
                 className="bg-blue-500 text-white p-6 md:mr-12 block md:inline"
+                onClick={Toggle}
+                
               >
                 SIGN UP
               </Link>
@@ -132,7 +134,7 @@ function Navbar() {
                 <Link
                   to="/logout"
                   onClick={Logout}
-                  className="bg-blue-500 text-white p-6 md:inline"
+                  className="bg-blue-500 text-white p-6 md:inline mt-2 md:mt-0"
                 >
                   Log out
                 </Link>
@@ -140,7 +142,7 @@ function Navbar() {
             ) : (
               <Link
                 to="/signup"
-                className="bg-blue-500 text-white p-6 md:block"
+                className="bg-blue-500 text-white p-6 md:block mt-2 md:mt-0"
               >
                 SIGN UP
               </Link>

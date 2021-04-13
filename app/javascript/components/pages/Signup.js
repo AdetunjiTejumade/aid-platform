@@ -134,7 +134,7 @@ function SignUp() {
 
         {/* add transitions */}
 
-        <form className="pt-20 px-20" onSubmit={handleSubmit(onSubmit)}>
+        <form className="pt-20 px-12 md:px-20" onSubmit={handleSubmit(onSubmit)}>
           <div className="group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
             <label className=" block text-2xl ">
               Your first name{" "}
@@ -233,9 +233,9 @@ function SignUp() {
             <input
               name="document"
               type="file"
-              // ref={register({
-              //   required: true,
-              // })}
+              ref={register({
+                required: true,
+              })}
               className="mt-2 py-4"
               onChange={handleAvatar}
             />
@@ -249,7 +249,7 @@ function SignUp() {
           </button>
           <div className="text-right">
             <p className="">
-              Already have an account?<Link to="/login">Login</Link>
+              Already have an account? <Link to="/login">Login</Link>
             </p>
           </div>
         </form>
