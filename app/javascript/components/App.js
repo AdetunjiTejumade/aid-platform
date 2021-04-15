@@ -112,7 +112,7 @@ const App = ({ cableApp }) => {
       setUserData({
         isLoggedIn: false,
       });
-      history.push("/login");
+      history.push("/signup");
     }
   };
 
@@ -143,25 +143,24 @@ const App = ({ cableApp }) => {
   // request greater that 24hrs, are not fulfilled and have less than 5 volunteers
 
   const getUserLocation = () => {
-    window.navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let { latitude, longitude } = position.coords;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          let { latitude, longitude } = position.coords;
 
-        setUserLat(latitude);
-        setUserLng(longitude);
-      },
-      (error) => {
-        if (error.code === 1) {
-          setInterval(() => {
+          setUserLat(latitude);
+          setUserLng(longitude);
+        },
+        (error) => {
+          if (error.code === 1) {
             alert(
               "Kindly allow location, for a more immersive experience with the app."
             );
-          }, 10000);
-
-          // console.log(error);
+            console.log(error);
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   const getCurrentUser = async () => {
