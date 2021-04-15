@@ -289,7 +289,7 @@ function RoomShow({ cableApp }) {
   return (
     <>
       {requiresRepublishing ? (
-        <div classNameName="text-center m-auto">
+        <div className="text-center m-auto">
           <h3>The Request Owner has to republish this request</h3>
           <Link onClick={() => window.location.reload()} to="/map">
             Go to Feeds
@@ -297,7 +297,7 @@ function RoomShow({ cableApp }) {
         </div>
       ) : (
         <>
-          <div classNameName="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
+          <div className="flex-1 p:2 sm:p-6 justify-between flex flex-col h-screen">
             <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200 px-6">
               <div className="flex space-x-4">
                 <img
@@ -355,7 +355,7 @@ function RoomShow({ cableApp }) {
               {currentRoom.messages ? (
                 displayMessages(currentRoom.messages)
               ) : (
-                <h3 classNameName="text-center">
+                <h3 className="text-center">
                   This room has no messages yet - be the first to post!
                 </h3>
               )}
