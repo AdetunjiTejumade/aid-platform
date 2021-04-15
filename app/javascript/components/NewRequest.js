@@ -164,6 +164,7 @@ function RequestForm() {
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setTitle(e.target.value)}
             />
+            {errors.title && <span className="text-red-600">This field is required</span>}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -176,13 +177,17 @@ function RequestForm() {
             <textarea
               name="description"
               ref={register({
-                required: true,
-                maxLength: 300,
+                required: "Decription cannot be empty",
+                maxLength:{ 
+                  value:300,
+                  message: "Decription cannot be more than 300 charaters"
+                }
               })}
               placeholder="Describe your request"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setDescription(e.target.value)}
             />
+            {errors.description && <span className="text-red-600">{errors.description.message}</span>}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -195,13 +200,18 @@ function RequestForm() {
             <textarea
               name="address"
               ref={register({
-                required: true,
-                maxLength: 300,
+                required: "Address cannot be empty",
+                maxLength:{ 
+                  value:300,
+                  message: "Decription cannot be more than 300 charaters"
+                }
               })}
               placeholder="Your address"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setAddress(e.target.value)}
             />
+            {errors.address && <span className="text-red-600">{errors.address.message}</span>}
+
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -223,6 +233,7 @@ function RequestForm() {
               <option value="material_need">Material needs</option>
               {/* <option value="As mentioned above">As mentioned above</option> */}
             </select>
+            {errors.request_type && <span className="text-red-600">Select a request type</span>}
           </div>
 
           <div className="mt-14 mb-12 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">

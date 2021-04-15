@@ -13,7 +13,8 @@ function SignUp() {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });
-
+  // const password = useRef({});
+  // password.current = watch("password", "");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -134,7 +135,10 @@ function SignUp() {
 
         {/* add transitions */}
 
-        <form className="pt-20 px-12 md:px-20" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="pt-20 px-12 md:px-20"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
             <label className=" block text-2xl ">
               Your first name{" "}
@@ -150,6 +154,9 @@ function SignUp() {
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={handleFirstName}
             />
+            {errors.firstname && (
+              <span className="text-red-600">First name cannot be empty </span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -162,11 +169,14 @@ function SignUp() {
             <input
               name="lastname"
               ref={register({
-                required: true,
+                required: "Last name cannot be empty",
               })}
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={handleLastName}
             />
+            {errors.lastname && (
+              <span className="text-red-600">Last name cannot be empty </span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -179,12 +189,15 @@ function SignUp() {
             <input
               name="email"
               ref={register({
-                required: true,
+                required: "Email cannot be empty",
               })}
               placeholder="Enter your email address"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={handleEmail}
             />
+            {errors.email && (
+              <span className="text-red-600">Email cannot be empty</span>
+            )}
           </div>
 
           <div className="mt-14 mb-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -198,11 +211,16 @@ function SignUp() {
               name="password"
               type="password"
               ref={register({
-                required: true,
+                required: "You must specify a password",
+                minLength: {
+                  value: 8,
+                  message: "Password must have at least 8 characters",
+                },
               })}
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={handlePassword}
             />
+           {errors.password && <span className="text-red-600">{errors.password.message}</span>}
           </div>
 
           <div className="mt-14 mb-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -213,14 +231,18 @@ function SignUp() {
               </span>
             </label>
             <input
-              name="confirm password"
+              name="password_repeat"
               type="password"
               ref={register({
-                required: true,
+                validate: value =>
+                  value === password || "The passwords do not match"
               })}
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               // onChange={handleInputChange}
             />
+            {errors.password_repeat && (
+              <span className="text-red-600">{errors.password_repeat.message}</span>
+            )}
           </div>
 
           <div className="mt-14 mb-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -247,7 +269,7 @@ function SignUp() {
           >
             {loading ? "Loading..." : "Submit"}
           </button>
-          <div className="text-right">
+          <div className="">
             <p className="">
               Already have an account? <Link to="/login">Login</Link>
             </p>
