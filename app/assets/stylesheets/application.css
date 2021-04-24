@@ -25,3 +25,93 @@
  .header-text{
   font-size: 2.013rem;
  }
+ .header{
+   position:fixed;
+   width: 100%;
+   z-index: 3;
+ }
+ .menu{
+   height: 100%;
+   transition: height .2s ease-out;
+ }
+ .menu-icon {
+   cursor: pointer;
+   display: inline-block;
+   padding: 28px 20px;
+   position:relative;
+   user-select: none;
+ }
+
+ .menu-icon .navicon {
+   background: #fff;
+   display: block;
+   height: 2px;
+   position: relative;
+   transition: background .2s ease-out;
+   width: 18px;
+ }
+ .menu-icon .navicon:before,
+.menu-icon .navicon:after {
+  color: #fff;
+  background: #3b82f6;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+
+.menu-icon .navicon:before {
+  top: 5px;
+}
+
+.header .menu-icon .navicon:after {
+  top: -5px;
+}
+
+/* menu btn */
+
+.menu-btn {
+  display: none;
+}
+
+ .menu-btn:checked ~ .menu {
+  max-height: 240px;
+}
+
+ .menu-btn:checked ~ .menu-icon .navicon {
+  background: transparent;
+}
+
+.menu-btn:checked ~ .menu-icon .navicon:before {
+  transform: rotate(-45deg);
+}
+
+.menu-btn:checked ~ .menu-icon .navicon:after {
+  transform: rotate(45deg);
+}
+
+ .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+ .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+  top: 0;
+}
+
+/* 48em = 768px */
+
+@media (min-width: 48em) {
+  .header a {
+    float: left;
+  }
+  .header a {
+    padding: 20px 30px;
+  }
+  .header .menu {
+    clear: none;
+    float: right;
+    max-height: none;
+  }
+  .header .menu-icon {
+    display: none;
+  }
+}
