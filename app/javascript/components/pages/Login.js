@@ -101,6 +101,7 @@ function Login() {
             <input
               name="password"
               type="password"
+              placeholder="Enter password"
               ref={register({
                 required: "You must specify a password",
                 minLength: {
@@ -115,7 +116,7 @@ function Login() {
           {errors.password && (
             <span className="text-red-600">{errors.password.message}</span>
           )}
-
+           {error && <span className="form-error">{error}</span>}
           <button
             type="submit"
             disabled={loading}

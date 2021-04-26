@@ -27,6 +27,7 @@
     "react-joyride": "^2.3.0",
     "react-leaflet": "^3.1.0",
     "react-router-dom": "^5.2.0",
+    "reactour": "^1.18.3",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "turbolinks": "^5.2.0"
   },

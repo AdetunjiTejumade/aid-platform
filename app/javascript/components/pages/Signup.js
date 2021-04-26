@@ -52,32 +52,31 @@ function SignUp() {
       "https://helping-neighboors.herokuapp.com/rails/active_storage/direct_uploads"
     );
     upload.create((error, blob) => {
-      if (error) {
-        // console.log(error)
-      } else {
+      // if (error) {
+      //   // console.log(error)
+      // } else {
         let res = axios
-          .patch(`https://helping-neighboors.herokuapp.com/users/${user.user.id}`, {
-            auth: {
-              avatar: blob.signed_id,
-            },
-          })
-          .then(
-            (response) => {
-              // console.log(response.data);
-
-              setTimeout(() => {
-                window.location.reload();
-              }, 3500);
-              history.push("/map");
-            },
-
-            (error) => {
-              console.log("Error", error);
+          .patch(
+            `https://helping-neighboors.herokuapp.com/users/${user.user.id}`,
+            {
+              auth: {
+                avatar: blob.signed_id,
+              },
             }
-          );
+          )
+          .then((response) => {
+            console.log("I got here");
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 3500);
+            history.push("/map");
+          }).catch((error) => {
+            console.log("Error", error);
+          });
 
         return res;
-      }
+      // }
     });
   };
   const onSubmit = async (e) => {
@@ -148,6 +147,7 @@ function SignUp() {
             </label>
             <input
               name="firstname"
+              placeholder="Enter your first name"
               ref={register({
                 required: true,
               })}
@@ -168,6 +168,7 @@ function SignUp() {
             </label>
             <input
               name="lastname"
+              placeholder="Enter your last name"
               ref={register({
                 required: "Last name cannot be empty",
               })}
@@ -210,6 +211,7 @@ function SignUp() {
             <input
               name="password"
               type="password"
+              placeholder="Enter password"
               ref={register({
                 required: "You must specify a password",
                 minLength: {
@@ -233,6 +235,7 @@ function SignUp() {
             <input
               name="password_repeat"
               type="password"
+              placeholder="Confirm password"
               ref={register({
                 validate: value =>
                   value === password || "The passwords do not match"

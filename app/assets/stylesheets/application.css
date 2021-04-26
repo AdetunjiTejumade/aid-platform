@@ -96,22 +96,3 @@
  .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   top: 0;
 }
-
-/* 48em = 768px */
-
-@media (min-width: 48em) {
-  .header a {
-    float: left;
-  }
-  .header a {
-    padding: 20px 30px;
-  }
-  .header .menu {
-    clear: none;
-    float: right;
-    max-height: none;
-  }
-  .header .menu-icon {
-    display: none;
-  }
-}
