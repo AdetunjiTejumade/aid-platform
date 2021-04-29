@@ -1,4 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+
+import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import Faker from "faker";
+import Checkbox from "@material-ui/core/Checkbox";
+
 import {
   RoomDataContext,
   UserIdContext,
@@ -8,15 +15,10 @@ import {
   DeactivateContext,
   RepublishingContext,
 } from "./contexts/ContextFile";
-import ChatMessage from "./ChatMessage";
-import "../../assets/stylesheets/chat.css"; //app\assets\stylesheets\Chat.scss
-import axios from "axios";
-import { Link, useLocation } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import Typography from "@material-ui/core/Typography";
-import Faker from "faker";
-import Checkbox from "@material-ui/core/Checkbox";
+
 import Footer from "./pages/Footer";
+import ChatMessage from "./ChatMessage";
+import "../../assets/stylesheets/chat.css";
 
 function RoomShow({ cableApp }) {
   useEffect(() => {}, []);
@@ -45,7 +47,6 @@ function RoomShow({ cableApp }) {
     getRoomData(chatRoomId || roomParam);
 
     createWebSocket();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const inputRef = useRef();
@@ -126,7 +127,6 @@ function RoomShow({ cableApp }) {
 
     return res;
   };
-  // console.log(currentVol.request_id);
 
   const deactivateRooms = async (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -197,21 +197,14 @@ function RoomShow({ cableApp }) {
           Authorization: `Basic ${token}`,
         },
       })
-      .then(
-        (result) => {
-          // console.log(result.data);
-          checkActiveRequest(currentVol.request_id);
-          setCurrentRoom({
-            room: result.data,
-            messages: result.data.messages,
-            // users: [...currentRoom.users]
-          });
-          console.log("data", result);
-        },
-        (error) => {
-          // console.log(error);
-        }
-      );
+      .then((result) => {
+        checkActiveRequest(currentVol.request_id);
+        setCurrentRoom({
+          room: result.data,
+          messages: result.data.messages,
+        });
+        console.log("data", result);
+      });
 
     return res;
   };
@@ -237,7 +230,6 @@ function RoomShow({ cableApp }) {
     console.log("here");
     setCurrentRoom({
       room: newRoom.conversation,
-      // users: newRoom.users,
       messages: newRoom.messages,
     });
   };
@@ -252,9 +244,6 @@ function RoomShow({ cableApp }) {
       user_id: userId,
       conversation_id: chatRoomId || roomParam,
     };
-
-    // console.log(message);
-
     if (inputRef.current.value.length === 0) {
       alert("message can not be empty");
     }
@@ -325,7 +314,6 @@ function RoomShow({ cableApp }) {
                   <span className="text-lg text-gray-600">
                     {currentRoom.room.name}
                   </span>
-                  {/* TODO add title */}
                 </div>
               </div>
               <div>

@@ -13,7 +13,6 @@ import {
 import Republish from "./Republish";
 import ChatDialogue from "./ChatDialogue";
 
-// import { AuthContext } from "./App";
 function Navbar() {
   const { userData, setUserData } = useContext(UserContext);
 

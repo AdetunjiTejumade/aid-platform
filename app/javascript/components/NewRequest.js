@@ -1,36 +1,10 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useContext, useRef, useLayoutEffect } from "react";
 import {
-  UserLatContext,
-  UserLngContext,
   AllRequestContext,
   UserIdContext,
-  RequestOwnerContext,
-  ReqOwnerFirstNameContext,
-  SelectedReqDescContext,
-  AllRoomContext,
-  RequestOwnerIdContext,
-  ChatRoomIdContext,
   ErrorContext,
-  PannedMapContext,
-  RequestFormContext,
-  SelectedRequestContext,
-  CurrentVolunteerContext,
 } from "../components/contexts/ContextFile";
 
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  LayersControl,
-} from "react-leaflet";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -146,7 +120,10 @@ function RequestForm() {
           <h1 className="font-bold text-5xl text-white">Request Help</h1>
         </header>
 
-        <form className="pt-20 px-12 md:px-20" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="pt-20 px-12 md:px-20"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
             <label className=" block text-2xl ">
               Title{" "}
@@ -164,7 +141,9 @@ function RequestForm() {
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setTitle(e.target.value)}
             />
-            {errors.title && <span className="text-red-600">This field is required</span>}
+            {errors.title && (
+              <span className="text-red-600">This field is required</span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -178,16 +157,18 @@ function RequestForm() {
               name="description"
               ref={register({
                 required: "Decription cannot be empty",
-                maxLength:{ 
-                  value:300,
-                  message: "Decription cannot be more than 300 charaters"
-                }
+                maxLength: {
+                  value: 300,
+                  message: "Decription cannot be more than 300 charaters",
+                },
               })}
               placeholder="Describe your request"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setDescription(e.target.value)}
             />
-            {errors.description && <span className="text-red-600">{errors.description.message}</span>}
+            {errors.description && (
+              <span className="text-red-600">{errors.description.message}</span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -201,17 +182,18 @@ function RequestForm() {
               name="address"
               ref={register({
                 required: "Address cannot be empty",
-                maxLength:{ 
-                  value:300,
-                  message: "Decription cannot be more than 300 charaters"
-                }
+                maxLength: {
+                  value: 300,
+                  message: "Decription cannot be more than 300 charaters",
+                },
               })}
               placeholder="Your address"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setAddress(e.target.value)}
             />
-            {errors.address && <span className="text-red-600">{errors.address.message}</span>}
-
+            {errors.address && (
+              <span className="text-red-600">{errors.address.message}</span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -233,7 +215,9 @@ function RequestForm() {
               <option value="material_need">Material needs</option>
               {/* <option value="As mentioned above">As mentioned above</option> */}
             </select>
-            {errors.request_type && <span className="text-red-600">Select a request type</span>}
+            {errors.request_type && (
+              <span className="text-red-600">Select a request type</span>
+            )}
           </div>
 
           <div className="mt-14 mb-12 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">

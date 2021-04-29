@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
-import Button from "@material-ui/core/Button";
 import { UserIdContext } from "../components/contexts/ContextFile";
 import axios from "axios";
 import MenuList from "./MenuList";
@@ -26,18 +24,11 @@ export default function LongMenu() {
           Authorization: `Basic ${token}`,
         },
       })
-      .then(
-        (response) => {
-          //   console.log(response.data);
-          let uniqueReq = response.data.filter(
-            (item) => item.user_id === userId
-          );
-          // console.log(uniqueReq);
-
-          setRequestToRepublish(uniqueReq);
-          return uniqueReq;
-        }
-      );
+      .then((response) => {
+        let uniqueReq = response.data.filter((item) => item.user_id === userId);
+        setRequestToRepublish(uniqueReq);
+        return uniqueReq;
+      });
 
     return res;
   };

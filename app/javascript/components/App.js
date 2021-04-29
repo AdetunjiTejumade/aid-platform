@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
-// import "./App.css";
 import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import Home from "./pages/Home";
-// import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import RequestForm from "./NewRequest";
 import Login from "./pages/Login";
@@ -126,10 +124,6 @@ const App = ({ cableApp }) => {
       })
       .then(
         (response) => {
-          // let filteredReq = response.data.filter(
-          //   (item) => item.active === true
-          // );
-          // setAllRequest(filteredReq);
           setAllRequest(response.data);
         },
         (error) => {
@@ -173,8 +167,6 @@ const App = ({ cableApp }) => {
       })
       .then(
         (response) => {
-          // console.log(response.data);
-
           const getAllId = response.data.map((user) => user.id);
           setAllUserId(getAllId);
           if (userData.isLoggedIn) {
@@ -202,7 +194,6 @@ const App = ({ cableApp }) => {
           console.log(error);
         }
       );
-    // console.log("i am getting all users");
     return res;
   };
 

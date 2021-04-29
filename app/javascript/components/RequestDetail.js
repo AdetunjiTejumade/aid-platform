@@ -5,10 +5,6 @@ import axios from "axios";
 
 function RequestDetail() {
   const { state, dispatch } = React.useContext(AuthContext);
-  const userId = state.currentUser.id;
-  const volunteers = state.allVolunteers;
-  const allRooms = state.allRooms;
-  console.log(state);
   const [request, setRequest] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
   const csrf = document.querySelector('meta[name="csrf-token"]').content;
@@ -29,8 +25,6 @@ function RequestDetail() {
         return userId;
       })
       .catch((error) => console.log(error));
-
-    //console.log(request);
   }, []);
   return (
     <div className="flex">

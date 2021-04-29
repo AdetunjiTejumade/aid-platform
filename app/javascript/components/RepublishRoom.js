@@ -15,7 +15,6 @@ export default function LongMenu() {
   let { userId } = useContext(UserIdContext);
 
   let [roomToRepublish, setRoomToRepublish] = useState([]);
-  // console.log(roomToRepublish)
 
   const getRoomToRepublish = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -30,7 +29,6 @@ export default function LongMenu() {
       })
       .then(
         (response) => {
-          // console.log(response.data.length);
           setRoomToRepublish(response.data);
         },
         (error) => {
@@ -54,10 +52,8 @@ export default function LongMenu() {
   };
 
   const getUserRoomToRepublish = () => {
-    // eslint-disable-next-line array-callback-return
     let repRoom = roomToRepublish.map((room) => {
       if (room.receiver_id === userId || room.sender_id === userId) {
-        // console.log(room.name)
         return (
           <div key={room.id} style={{ display: "flex" }}>
             <MenuRoomList rooms={room} />

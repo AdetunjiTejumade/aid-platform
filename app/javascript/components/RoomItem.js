@@ -14,9 +14,6 @@ import { grey } from "@material-ui/core/colors";
 export default function RoomItem({ room, allVolunteers }) {
   useEffect(() => {}, []);
 
-  // console.log(room)
-  // console.log(allVolunteers);
-
   let { setRequiresRepublishing } = useContext(RepublishingContext);
 
   let { currentRoom, setCurrentRoom } = useContext(RoomDataContext);
@@ -40,7 +37,6 @@ export default function RoomItem({ room, allVolunteers }) {
       })
       .then(
         (result) => {
-          // console.log(result.data);
 
           setCurrentRoom({
             room: result.data,
@@ -72,15 +68,11 @@ export default function RoomItem({ room, allVolunteers }) {
     }
   };
 
-  // console.log(selectedRequest);
-
   const getDesiredVolunteer = (arr) => {
     const vol = allVolunteers.find(
       (vol) => vol.request_id === arr.id && room.sender_id === vol.user_id
     );
     setCurrentVol(vol);
-
-    // console.log(vol)
   };
 
   return (

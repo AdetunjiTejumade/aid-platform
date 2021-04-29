@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useContext } from "react";
 import {
   UserLatContext,
   UserLngContext,
@@ -17,9 +10,6 @@ import {
   AllRoomContext,
   RequestOwnerIdContext,
   ChatRoomIdContext,
-  ErrorContext,
-  PannedMapContext,
-  RequestFormContext,
   SelectedRequestContext,
   CurrentVolunteerContext,
 } from "../components/contexts/ContextFile";
@@ -41,7 +31,6 @@ function Map() {
   const { userId } = useContext(UserIdContext);
 
   const url = "https://helping-neighboors.herokuapp.com/requests/";
-  //const header = JSON.parse(localStorage.getItem("header"));
 
   let history = useHistory();
 
@@ -90,7 +79,6 @@ function Map() {
       })
       .then(
         (response) => {
-          // console.log("success", response.data);
           onRequestRoomCreate(response.data.id);
 
           setChatRoomId(response.data.id);
@@ -131,13 +119,8 @@ function Map() {
           // console.log(error);
         }
       );
-    // alert(`create a room for you and ${reqOwnerFirstName}`);
 
     onCreateRoom();
-
-    // setCurrentRoom({
-    //   users: [userRequest, ...currentRoom.users],
-    // });
 
     return res;
   };
@@ -199,7 +182,6 @@ function Map() {
       );
     getRequestOwner(requestOwner);
 
-    // checkActiveRequest(requestId);
     return res;
   };
   const getRequestOwner = async (id) => {
@@ -216,9 +198,6 @@ function Map() {
         })
         .then(
           (response) => {
-            //  console.log(response.data)
-            // let ownerRec = Object.values(response.data);
-            // console.log(ownerRec[0])
             setChatReceiverId(response.data.id);
             setReqOwnerFirstName(response.data.first_name);
           },
@@ -251,16 +230,11 @@ function Map() {
           zoom={6}
           className="w-full col-span-2"
         >
-          {/* <LayersControl position="topright" className="sidebar"></LayersControl> */}
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {/* <Marker position={[6.67107, 3.25564]}>
-              <Popup>
-                <p>hello</p>
-              </Popup>
-            </Marker>; */}
+
           {allRequest.map((items, index) => {
             const {
               id,
@@ -272,7 +246,7 @@ function Map() {
               fulfilled,
               user_id,
             } = items;
-            // console.log(items); //TODO fix reload
+
             if (fulfilled === false) {
               return (
                 <Marker
@@ -284,7 +258,6 @@ function Map() {
 
                       setRequestOwner(user_id);
                       setReqDescription(description);
-                      //console.log("clicked", id);
                     },
                   }}
                   position={[lat, lng]}
@@ -298,15 +271,7 @@ function Map() {
                         </h1>
                         <p>{description}</p>
                         <p>{request_type}</p>
-                        <div className="text-right">
-                          {renderButton()}
-                          {/* <button
-                        onClick={onVolunteerClick}
-                        className="bg-blue-500 px-6 py-3 text-white outline-none"
-                      >
-                        Volunteer
-                      </button> */}
-                        </div>
+                        <div className="text-right">{renderButton()}</div>
                       </div>
                     </Popup>
                   )}

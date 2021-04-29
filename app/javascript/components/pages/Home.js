@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import Counter from "./Counter";
 import Footer from "./Footer";
 import pic1 from "../../../assets/images/volunteering.svg";
 import pic2 from "../../../assets/images/04.svg";
