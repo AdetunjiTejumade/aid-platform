@@ -96,3 +96,8 @@
  .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
   top: 0;
 }
+@media only screen and (max-width:320px) {
+  .header-text{
+    font-size: 1.66rem;
+   }
+}
