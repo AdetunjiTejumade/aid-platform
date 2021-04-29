@@ -4,6 +4,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import MessageIcon from "@material-ui/icons/Message";
 import Slide from "@material-ui/core/Slide";
 import RoomList from "./RoomList";
 import RepublishRoom from "./RepublishRoom";
@@ -34,10 +35,11 @@ export default function ChatDialogue() {
         // color="primary"
         // className="text-bold"
         // color={"text-blue-500"}
-        className="pr-5 block md:inline uppercase"
+        className="pr-5 block md:inline uppercase my-3 md:my-0 cursor-pointer"
         onClick={handleClickOpen}
       >
         Messages
+        <MessageIcon className="ml-2" />
       </p>
 
       <Dialog

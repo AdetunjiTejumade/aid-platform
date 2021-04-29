@@ -36,9 +36,6 @@ export default function LongMenu() {
 
           setRequestToRepublish(uniqueReq);
           return uniqueReq;
-        },
-        (error) => {
-          // console.log(error);
         }
       );
 
@@ -64,7 +61,7 @@ export default function LongMenu() {
   return (
     <>
       <p
-        className="pr-5 block md:inline uppercase"
+        className="pr-5 block md:inline uppercase my-3 md:my-0 cursor-pointer"
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"

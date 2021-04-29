@@ -79,14 +79,14 @@ function Navbar() {
                 </Tooltip>
                 <Link
                   to="/map"
-                  className="md:mr-12 block md:inline"
+                  className="md:mr-12 block md:inline my-3 md:my-0 hover:bg-gray-300"
                   onClick={Toggle}
                 >
                   Map
                 </Link>
                 <Link
                   to="/new"
-                  className="md:mr-12 block md:inline"
+                  className="md:mr-12 block md:inline my-3 md:my-0"
                   onClick={Toggle}
                 >
                   Add Request
