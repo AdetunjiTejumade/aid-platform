@@ -1,24 +1,37 @@
-# README
+# Helping hands
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A web platform that connects people with volunteers.
 
-Things you may want to cover:
+[View website](https://helping-neighboors.herokuapp.com/)
 
-* Ruby version
+![img_01](https://user-images.githubusercontent.com/46271302/123509090-7d504c00-d6ae-11eb-9e0c-defce207925b.png)
 
-* System dependencies
 
-* Configuration
 
-* Database creation
+## Install
 
-* Database initialization
+### Clone the repository
+``` 
+git clone https://github.com/AdetunjiTejumade/aid-platform.git
+cd aid-platform
+```
+## Check your Ruby version
+`ruby -v`
+The output should start with something like `2.7.2`
 
-* How to run the test suite
+If not, install the right ruby version using rbenv (it could take a while):
 
-* Services (job queues, cache servers, search engines, etc.)
+`rbenv install 2.7.2`
 
-* Deployment instructions
+## Install dependecies:
+``` 
+bundle install
+yarn install
+```
 
-* ...
+## Initialize the database
+`rails db:create db:migrate db:seed`
+
+## Serve
+
+`rails s`
