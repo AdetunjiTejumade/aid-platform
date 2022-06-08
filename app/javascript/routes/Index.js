@@ -23,7 +23,7 @@ export const AllRoomsContext = createContext();
 function Routes({cableApp}) {
   const token = JSON.parse(localStorage.getItem("token"));
   const history = useHistory();
- 
+
   const { state, dispatch } = useContext(AuthContext);
   const initialState = {
     room: {},
@@ -45,7 +45,6 @@ function Routes({cableApp}) {
         },
       })
       .then((res) => {
-        console.log(res);
         setAllRooms(res.data);
       });
   };
@@ -96,7 +95,6 @@ function Routes({cableApp}) {
       })
       .then((res) => res)
       .then((result) => {
-        console.log(result);
       });
   };
   const Logout = () => {

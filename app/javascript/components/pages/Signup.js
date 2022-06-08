@@ -120,7 +120,6 @@ function SignUp() {
         );
         localStorage.setItem("user", JSON.stringify(data));
 
-        console.log(res);
         setError(false);
         setLoading(false);
       })

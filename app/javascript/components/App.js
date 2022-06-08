@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
-// import "./App.css";
 import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import Home from "./pages/Home";
-// import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import RequestForm from "./NewRequest";
-import Login from "./pages/Login"
+import Login from "./pages/Login";
 import axios from "axios";
 import {
   UserContext,
@@ -40,7 +38,7 @@ import {
   RepublishingContext,
 } from "./contexts/ContextFile";
 import Navbar from "./Navbar";
-import Map from "./Map"
+import Map from "./Map";
 import RoomShow from "./RoomShow";
 
 const App = ({ cableApp }) => {
@@ -50,7 +48,7 @@ const App = ({ cableApp }) => {
     user: JSON.parse(localStorage.getItem("user")) || null,
     isLoggedIn: JSON.parse(localStorage.getItem("user")) ? true : false,
   });
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const [userLat, setUserLat] = useState(0);
   const [userLng, setUserLng] = useState(0);
   const [allRequest, setAllRequest] = useState([]);
@@ -96,7 +94,7 @@ const App = ({ cableApp }) => {
     getAllRooms();
     getAllVolunteers();
 
-    document.title = "Feed | Peeps";
+    document.title = "Feed | Helping Neighbors";
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -111,25 +109,20 @@ const App = ({ cableApp }) => {
       setUserData({
         isLoggedIn: false,
       });
-      history.push("/login");
+      history.push("/signup");
     }
   };
-  const csrf = document.querySelector('meta[name="csrf-token"]').content;
+
   const getAllRequest = async () => {
-    
     let res = await axios
-      .get("https://helping-neighbours.herokuapp.com/requests/", {
+      .get("http://127.0.0.1:3000/requests/", {
         headers: {
-          Authorization: `Basic ${userData.token}`,
           "X-CSRF-Token": csrf,
+          Authorization: `Basic ${userData.token}`,
         },
       })
       .then(
         (response) => {
-          // let filteredReq = response.data.filter(
-          //   (item) => item.active === true
-          // );
-          // setAllRequest(filteredReq);
           setAllRequest(response.data);
         },
         (error) => {
@@ -143,30 +136,29 @@ const App = ({ cableApp }) => {
   // request greater that 24hrs, are not fulfilled and have less than 5 volunteers
 
   const getUserLocation = () => {
-    window.navigator.geolocation.getCurrentPosition(
-      (position) => {
-        let { latitude, longitude } = position.coords;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          let { latitude, longitude } = position.coords;
 
-        setUserLat(latitude);
-        setUserLng(longitude);
-      },
-      (error) => {
-        if (error.code === 1) {
-          setInterval(() => {
+          setUserLat(latitude);
+          setUserLng(longitude);
+        },
+        (error) => {
+          if (error.code === 1) {
             alert(
               "Kindly allow location, for a more immersive experience with the app."
             );
-          }, 10000);
-
-          // console.log(error);
+            console.log(error);
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   const getCurrentUser = async () => {
     let res = await axios
-      .get("https://helping-neighbours.herokuapp.com/users/", {
+      .get("http://127.0.0.1:3000/users", {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${userData.token}`,
@@ -174,8 +166,6 @@ const App = ({ cableApp }) => {
       })
       .then(
         (response) => {
-          // console.log(response.data);
-
           const getAllId = response.data.map((user) => user.id);
           setAllUserId(getAllId);
           if (userData.isLoggedIn) {
@@ -203,14 +193,14 @@ const App = ({ cableApp }) => {
           console.log(error);
         }
       );
-    // console.log("i am getting all users");
     return res;
   };
 
   const getAllRooms = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/conversations/`, {
+      .get(`http://127.0.0.1:3000/conversations/`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -230,8 +220,9 @@ const App = ({ cableApp }) => {
 
   const getAllVolunteers = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let res = await axios
-      .get(`https://helping-neighbours.herokuapp.com/requests_users/`, {
+      .get(`http://127.0.0.1:3000/requests_users/`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -369,7 +360,7 @@ const App = ({ cableApp }) => {
 
                                                                   <Switch>
                                                                     {/* <Route exact path="/" component={Home} /> */}
-{/* TODO add login routes */}
+                                                                    {/* TODO add login routes */}
                                                                     <Route
                                                                       exact
                                                                       path="/signup"
@@ -395,10 +386,16 @@ const App = ({ cableApp }) => {
                                                                         }
                                                                       />
                                                                     </PrivateRoute>
-                                                                    <PrivateRoute exact path="/new">
+                                                                    <PrivateRoute
+                                                                      exact
+                                                                      path="/new"
+                                                                    >
                                                                       <RequestForm />
                                                                     </PrivateRoute>
-                                                                   <PrivateRoute exact path="/map">
+                                                                    <PrivateRoute
+                                                                      exact
+                                                                      path="/map"
+                                                                    >
                                                                       <Map />
                                                                     </PrivateRoute>
                                                                     {/* TODO add map */}
