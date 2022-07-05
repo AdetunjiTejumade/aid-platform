@@ -116,7 +116,7 @@ const App = ({ cableApp }) => {
 
   const getAllRequest = async () => {
     let res = await axios
-      .get("https://helping-neighboors.herokuapp.com/requests/", {
+      .get("http://127.0.0.1:3000/requests/", {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${userData.token}`,
@@ -159,7 +159,7 @@ const App = ({ cableApp }) => {
 
   const getCurrentUser = async () => {
     let res = await axios
-      .get("https://helping-neighboors.herokuapp.com/users", {
+      .get("http://127.0.0.1:3000/users", {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${userData.token}`,
@@ -201,7 +201,7 @@ const App = ({ cableApp }) => {
     const token = JSON.parse(localStorage.getItem("token"));
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let res = await axios
-      .get(`https://helping-neighboors.herokuapp.com/conversations/`, {
+      .get(`http://127.0.0.1:3000/conversations/`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -223,7 +223,7 @@ const App = ({ cableApp }) => {
     const token = JSON.parse(localStorage.getItem("token"));
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
     let res = await axios
-      .get(`https://helping-neighboors.herokuapp.com/requests_users/`, {
+      .get(`http://127.0.0.1:3000/requests_users/`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,

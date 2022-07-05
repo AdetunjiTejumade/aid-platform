@@ -54,7 +54,7 @@ function RequestForm() {
   const sendRequest = async (params) => {
     setLoading(true);
     let res = axios
-      .post("https://helping-neighboors.herokuapp.com/requests", params, {
+      .post("http://127.0.0.1:3000/requests", params, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,

@@ -30,7 +30,7 @@ function Map() {
   const { allRequest } = useContext(AllRequestContext);
   const { userId } = useContext(UserIdContext);
 
-  const url = "https://helping-neighboors.herokuapp.com/requests/";
+  const url = "http://127.0.0.1:3000/requests/";
 
   let history = useHistory();
 
@@ -71,7 +71,7 @@ function Map() {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = axios
-      .post("https://helping-neighboors.herokuapp.com/conversations", roomObj, {
+      .post("http://127.0.0.1:3000/conversations", roomObj, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -105,7 +105,7 @@ function Map() {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const res = await axios
-      .post("https://helping-neighboors.herokuapp.com/requests_users", data, {
+      .post("http://127.0.0.1:3000/requests_users", data, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -136,7 +136,7 @@ function Map() {
 
     const res = await axios
       .post(
-        "https://helping-neighboors.herokuapp.com/requests_conversations",
+        "http://127.0.0.1:3000/requests_conversations",
         data,
         {
           headers: {
@@ -163,7 +163,7 @@ function Map() {
 
     let res = await axios
       .get(
-        `https://helping-neighboors.herokuapp.com/samevolunteer/${id}`,
+        `http://127.0.0.1:3000/samevolunteer/${id}`,
 
         {
           headers: {
@@ -190,7 +190,7 @@ function Map() {
       const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
       let res = await axios
-        .get(`https://helping-neighboors.herokuapp.com/users/${id}`, {
+        .get(`http://127.0.0.1:3000/users/${id}`, {
           headers: {
             "X-CSRF-Token": csrf,
             Authorization: `Basic ${token}`,

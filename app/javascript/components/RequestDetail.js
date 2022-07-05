@@ -9,7 +9,7 @@ function RequestDetail() {
   const token = JSON.parse(localStorage.getItem("token"));
   const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const { requestId } = useParams();
-  const url = `https://helping-neighboors.herokuapp.com/requests/${requestId}`;
+  const url = `http://127.0.0.1:3000/requests/${requestId}`;
   useEffect(() => {
     axios
       .get(url, {

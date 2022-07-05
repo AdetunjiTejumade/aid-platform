@@ -20,7 +20,7 @@ export default function MenuRoomItem({ room }) {
 
     let res = axios
       .patch(
-        `https://helping-neighboors.herokuapp.com/conversations/${room.id}`,
+        `http://127.0.0.1:3000/conversations/${room.id}`,
         obj,
         {
           headers: {

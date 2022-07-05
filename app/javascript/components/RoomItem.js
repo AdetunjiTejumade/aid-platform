@@ -29,7 +29,7 @@ export default function RoomItem({ room, allVolunteers }) {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
-      .get(`https://helping-neighboors.herokuapp.com/conversations/${id}`, {
+      .get(`http://127.0.0.1:3000/conversations/${id}`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,

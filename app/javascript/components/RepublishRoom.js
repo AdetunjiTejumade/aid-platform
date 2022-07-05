@@ -21,7 +21,7 @@ export default function LongMenu() {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
-      .get("https://helping-neighboors.herokuapp.com/republishroom", {
+      .get("http://127.0.0.1:3000/republishroom", {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,

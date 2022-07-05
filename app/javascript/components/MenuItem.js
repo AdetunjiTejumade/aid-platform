@@ -20,7 +20,7 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
 
     let res = axios
       .patch(
-        `https://helping-neighboors.herokuapp.com/requests/${request.id}`,
+        `http://127.0.0.1:3000/requests/${request.id}`,
         obj,
         {
           headers: {

@@ -78,7 +78,7 @@ function RoomShow({ cableApp }) {
     const token = JSON.parse(localStorage.getItem("token"));
 
     let res = axios
-      .patch(`https://helping-neighboors.herokuapp.com/requests/${id}`, obj, {
+      .patch(`http://127.0.0.1:3000/requests/${id}`, obj, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -101,7 +101,7 @@ function RoomShow({ cableApp }) {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
-      .get(`https://helping-neighboors.herokuapp.com/deactivate/${id}`, {
+      .get(`http://127.0.0.1:3000/deactivate/${id}`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -133,7 +133,7 @@ function RoomShow({ cableApp }) {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
-      .get(`https://helping-neighboors.herokuapp.com/deactivaterooms/${id}`, {
+      .get(`http://127.0.0.1:3000/deactivaterooms/${id}`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -165,7 +165,7 @@ function RoomShow({ cableApp }) {
 
     let res = axios
       .patch(
-        `https://helping-neighboors.herokuapp.com/requests_users/${id}`,
+        `http://127.0.0.1:3000/requests_users/${id}`,
         obj,
         {
           headers: {
@@ -191,7 +191,7 @@ function RoomShow({ cableApp }) {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
-      .get(`https://helping-neighboors.herokuapp.com/conversations/${id}`, {
+      .get(`http://127.0.0.1:3000/conversations/${id}`, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -251,7 +251,7 @@ function RoomShow({ cableApp }) {
     inputRef.current.value = "";
 
     let res = axios
-      .post("https://helping-neighboors.herokuapp.com/messages", message, {
+      .post("http://127.0.0.1:3000/messages", message, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
