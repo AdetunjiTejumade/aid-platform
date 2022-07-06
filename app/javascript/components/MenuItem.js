@@ -5,7 +5,7 @@ import { AllRequestContext } from "../components/contexts/ContextFile";
 
 const MenuItems = React.forwardRef(({ request }, ref) => {
   const { allRequest, setAllRequest } = useContext(AllRequestContext);
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const handleRequestDetails = () => {
     let rType =
       request.request_type === "material_need"
@@ -19,16 +19,12 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = axios
-      .patch(
-        `http://127.0.0.1:3000/requests/${request.id}`,
-        obj,
-        {
-          headers: {
-            "X-CSRF-Token": csrf,
-            Authorization: `Basic ${token}`,
-          },
-        }
-      )
+      .patch(`https://helping-neighbours.herokuapp.com/requests/${request.id}/`, obj, {
+        headers: {
+          "X-CSRF-Token": csrf,
+          Authorization: `Basic ${token}`,
+        },
+      })
       .then(
         (response) => {
           let tempRequest = [response.data, ...allRequest];

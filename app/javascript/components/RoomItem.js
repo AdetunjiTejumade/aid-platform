@@ -12,9 +12,18 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { grey } from "@material-ui/core/colors";
 
 export default function RoomItem({ room, allVolunteers }) {
+<<<<<<< HEAD
+  useEffect(() => { }, []);
+  
+  // console.log(room)
+  // console.log(allVolunteers);
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
+  let { setRequiresRepublishing } = useContext(RepublishingContext)
+=======
   useEffect(() => {}, []);
 
   let { setRequiresRepublishing } = useContext(RepublishingContext);
+>>>>>>> main
 
   let { currentRoom, setCurrentRoom } = useContext(RoomDataContext);
   let { allRequest } = useContext(AllRequestContext);
@@ -29,7 +38,11 @@ export default function RoomItem({ room, allVolunteers }) {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
+<<<<<<< HEAD
+      .get(`https://helping-neighbours.herokuapp.com/conversations/${id}/`, {
+=======
       .get(`http://127.0.0.1:3000/conversations/${id}`, {
+>>>>>>> main
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,

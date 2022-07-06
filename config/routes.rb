@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :requests_conversations
+
+  default_url_options :host => "helping-neighbours.herokuapp.com"
   root 'pages#index'
   # default_url_options :host => "helping-neighboors.herokuapp.com"
   resources :conversations

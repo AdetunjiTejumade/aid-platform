@@ -68,10 +68,9 @@ function Map() {
     let tempArray = [roomObj, ...allRooms];
 
     const token = JSON.parse(localStorage.getItem("token"));
-    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = axios
-      .post("http://127.0.0.1:3000/conversations", roomObj, {
+      .post("https://helping-neighbours.herokuapp.com/conversations/", roomObj, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -105,7 +104,11 @@ function Map() {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const res = await axios
+<<<<<<< HEAD
+      .post("https://helping-neighbours.herokuapp.com/requests_users/", data, {
+=======
       .post("http://127.0.0.1:3000/requests_users", data, {
+>>>>>>> main
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -135,6 +138,14 @@ function Map() {
     const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const res = await axios
+<<<<<<< HEAD
+      .post("https://helping-neighbours.herokuapp.com/requests_rooms/", data, {
+        headers: {
+          "X-CSRF-Token": csrf,
+          Authorization: `Basic ${token}`,
+        },
+      })
+=======
       .post(
         "http://127.0.0.1:3000/requests_conversations",
         data,
@@ -145,6 +156,7 @@ function Map() {
           },
         }
       )
+>>>>>>> main
       .then(
         (response) => {
           // console.log(response.data);
@@ -163,7 +175,11 @@ function Map() {
 
     let res = await axios
       .get(
+<<<<<<< HEAD
+        `https://helping-neighbours.herokuapp.com/samevolunteer/${id}/`,
+=======
         `http://127.0.0.1:3000/samevolunteer/${id}`,
+>>>>>>> main
 
         {
           headers: {
@@ -190,7 +206,11 @@ function Map() {
       const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
       let res = await axios
+<<<<<<< HEAD
+        .get(`https://helping-neighbours.herokuapp.com/users/${id}/`, {
+=======
         .get(`http://127.0.0.1:3000/users/${id}`, {
+>>>>>>> main
           headers: {
             "X-CSRF-Token": csrf,
             Authorization: `Basic ${token}`,

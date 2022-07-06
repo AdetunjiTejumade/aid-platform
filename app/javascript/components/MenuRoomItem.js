@@ -8,8 +8,11 @@ export default function MenuRoomItem({ room }) {
   //  console.log(room)
   //  console.log(allRooms)
 
-  const handleRoomDetails = () => {
-    let pathchedValue = room.patched === false ? true : false;
+export default function MenuRoomItem({room}) {
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
+    let {allRooms, setAllRooms } = useContext(AllRoomContext)
+        //  console.log(room)
+        //  console.log(allRooms)
 
     let obj = {
       patched: pathchedValue,
@@ -41,8 +44,24 @@ export default function MenuRoomItem({ room }) {
         }
       );
 
-    return res;
-  };
+       let res = axios
+         .patch(`https://helping-neighbours.herokuapp.com/conversations/${room.id}/`, obj, {
+           headers: {
+            "X-CSRF-Token": csrf,
+             Authorization: `Basic ${token}`,
+           },
+         })
+         .then(
+           (response) => {
+             //  console.log("success", response.data);
+             let tempRoom = [response.data, ...allRooms];
+             setAllRooms(tempRoom);
+             alert("Room Republished");
+           },
+           (error) => {
+             //  console.log("Error", error);
+           }
+         );
 
   return (
     <MenuItem key={room.id} selected={room[0]} onClick={handleRoomDetails}>

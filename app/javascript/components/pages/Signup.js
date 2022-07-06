@@ -13,7 +13,7 @@ function SignUp() {
   const { register, handleSubmit, errors, reset } = useForm({
     mode: "onBlur",
   });
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -47,6 +47,27 @@ function SignUp() {
   const uploadFile = (file, user) => {
     const upload = new DirectUpload(
       file,
+<<<<<<< HEAD
+      "https://helping-neighbours.herokuapp.com/rails/active_storage/direct_uploads"
+    );
+    upload.create((error, blob) => {
+      if (error) {
+        // console.log(error)
+      } else {
+        let res = axios
+          .patch(`https://helping-neighbours.herokuapp.com/${user.user.id}/`, {
+            auth: {
+              avatar: blob.signed_id,
+            },
+          },{
+            headers: {
+              "X-CSRF-Token": csrf,
+            },
+          })
+          .then(
+            (response) => {
+              // console.log(response.data);
+=======
       "http://127.0.0.1:3000/rails/active_storage/direct_uploads"
     );
     upload.create((error, blob) => {
@@ -61,6 +82,7 @@ function SignUp() {
         )
         .then((response) => {
           console.log("I got here");
+>>>>>>> main
 
           setTimeout(() => {
             window.location.reload();
@@ -85,12 +107,20 @@ function SignUp() {
     };
 
     let res = await axios
+<<<<<<< HEAD
+      .post("https://helping-neighbours.herokuapp.com/auth/signup/", {
+=======
       .post("http://127.0.0.1:3000/auth/signup", {
+>>>>>>> main
         auth: {
           first_name: firstName,
           last_name: lastName,
           email: email,
           password: password,
+        },
+      },{
+        headers: {
+          "X-CSRF-Token": csrf,
         },
       })
       .then((response) => {
@@ -107,7 +137,6 @@ function SignUp() {
         );
         localStorage.setItem("user", JSON.stringify(data));
 
-        console.log(res);
         setError(false);
         setLoading(false);
       })

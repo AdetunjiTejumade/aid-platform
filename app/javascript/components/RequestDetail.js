@@ -4,12 +4,13 @@ import { AuthContext } from "./App";
 import axios from "axios";
 
 function RequestDetail() {
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const { state, dispatch } = React.useContext(AuthContext);
   const [request, setRequest] = useState([]);
   const token = JSON.parse(localStorage.getItem("token"));
   const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const { requestId } = useParams();
-  const url = `http://127.0.0.1:3000/requests/${requestId}`;
+  const url = `https://helping-neighbours.herokuapp.com/requests/${requestId}/`;
   useEffect(() => {
     axios
       .get(url, {

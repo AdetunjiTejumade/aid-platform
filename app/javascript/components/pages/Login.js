@@ -22,7 +22,7 @@ function Login() {
   const handlePassword = (e) => {
     setPassword(e.target.value);
   };
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const onSubmit = (event) => {
     setLoading(true);
 
@@ -31,12 +31,16 @@ function Login() {
       password: password,
     };
     let res = axios
-      .post("http://127.0.0.1:3000/auth/signin", {
+      .post("https://helping-neighbours.herokuapp.com/auth/signin/", {
         auth: {
           email: email,
           password: password,
         },
-      })
+      },{
+        headers: {
+          "X-CSRF-Token": csrf,
+        },
+      } )
       .then((response) => {
         setUserData({
           token: response.data.jwt,

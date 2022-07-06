@@ -12,7 +12,7 @@ import Footer from "./pages/Footer";
 
 function RequestForm() {
   let { error, setError } = useContext(ErrorContext);
-
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const { allRequest, setAllRequest } = useContext(AllRequestContext);
 
   const { userId } = useContext(UserIdContext);
@@ -54,7 +54,11 @@ function RequestForm() {
   const sendRequest = async (params) => {
     setLoading(true);
     let res = axios
+<<<<<<< HEAD
+      .post("https://helping-neighbours.herokuapp.com/requests/", params, {
+=======
       .post("http://127.0.0.1:3000/requests", params, {
+>>>>>>> main
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
