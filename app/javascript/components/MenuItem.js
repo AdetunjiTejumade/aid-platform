@@ -7,9 +7,6 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
   const { allRequest, setAllRequest } = useContext(AllRequestContext);
   const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const handleRequestDetails = () => {
-    // alert("i did it");
-    //  console.log(request)
-    //  requestToRepublish(request.id)
     let rType =
       request.request_type === "material_need"
         ? `one_time_task`
@@ -19,6 +16,7 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
     };
 
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = axios
       .patch(`https://helping-neighbours.herokuapp.com/requests/${request.id}/`, obj, {
@@ -29,8 +27,6 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
       })
       .then(
         (response) => {
-          //  console.log("success", response.data);
-
           let tempRequest = [response.data, ...allRequest];
           setAllRequest(tempRequest);
           alert("Request Republished");
@@ -45,7 +41,6 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
 
   return (
     <MenuItem
-      // {...props}
       ref={ref}
       key={request.id}
       selected={request[0]}
@@ -54,7 +49,6 @@ const MenuItems = React.forwardRef(({ request }, ref) => {
       {request.description}
     </MenuItem>
   );
-
-})
+});
 
 export default MenuItems;

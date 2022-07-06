@@ -4,7 +4,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options = { host: "helping-neighbours.herokuapp.com" }
   # Code is not reloaded between requests.
   config.cache_classes = true
-
+  Rails.application.routes.default_url_options = { host: "helping-neighboors.herokuapp.com" }
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.
@@ -27,7 +27,8 @@ Rails.application.configure do
   # config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
-  config.assets.compile = false
+  config.serve_static_files = true
+  config.assets.compile = true
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
@@ -39,6 +40,7 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
+  config.web_socket_server_url = "wss://helping-neighboors.herokuapp.com/cable"
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'

@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useContext } from "react";
 import {
   UserLatContext,
   UserLngContext,
@@ -17,9 +10,6 @@ import {
   AllRoomContext,
   RequestOwnerIdContext,
   ChatRoomIdContext,
-  ErrorContext,
-  PannedMapContext,
-  RequestFormContext,
   SelectedRequestContext,
   CurrentVolunteerContext,
 } from "../components/contexts/ContextFile";
@@ -40,9 +30,8 @@ function Map() {
   const { allRequest } = useContext(AllRequestContext);
   const { userId } = useContext(UserIdContext);
 
-  const url = "https://helping-neighbours.herokuapp.com/requests/";
-  //const header = JSON.parse(localStorage.getItem("header"));
-  const csrf = document.querySelector('meta[name="csrf-token"]').content;
+  const url = "http://127.0.0.1:3000/requests/";
+
   let history = useHistory();
 
   const { selectedRequest, setSelectedRequest } = useContext(
@@ -79,7 +68,7 @@ function Map() {
     let tempArray = [roomObj, ...allRooms];
 
     const token = JSON.parse(localStorage.getItem("token"));
-    
+
     let res = axios
       .post("https://helping-neighbours.herokuapp.com/conversations/", roomObj, {
         headers: {
@@ -89,7 +78,6 @@ function Map() {
       })
       .then(
         (response) => {
-          // console.log("success", response.data);
           onRequestRoomCreate(response.data.id);
 
           setChatRoomId(response.data.id);
@@ -113,9 +101,14 @@ function Map() {
       user_id: userId,
     };
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const res = await axios
+<<<<<<< HEAD
       .post("https://helping-neighbours.herokuapp.com/requests_users/", data, {
+=======
+      .post("http://127.0.0.1:3000/requests_users", data, {
+>>>>>>> main
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -129,13 +122,8 @@ function Map() {
           // console.log(error);
         }
       );
-    // alert(`create a room for you and ${reqOwnerFirstName}`);
 
     onCreateRoom();
-
-    // setCurrentRoom({
-    //   users: [userRequest, ...currentRoom.users],
-    // });
 
     return res;
   };
@@ -147,14 +135,28 @@ function Map() {
     };
 
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     const res = await axios
+<<<<<<< HEAD
       .post("https://helping-neighbours.herokuapp.com/requests_rooms/", data, {
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
         },
       })
+=======
+      .post(
+        "http://127.0.0.1:3000/requests_conversations",
+        data,
+        {
+          headers: {
+            "X-CSRF-Token": csrf,
+            Authorization: `Basic ${token}`,
+          },
+        }
+      )
+>>>>>>> main
       .then(
         (response) => {
           // console.log(response.data);
@@ -169,10 +171,15 @@ function Map() {
 
   const checkSameUserClick = async (id) => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
       .get(
+<<<<<<< HEAD
         `https://helping-neighbours.herokuapp.com/samevolunteer/${id}/`,
+=======
+        `http://127.0.0.1:3000/samevolunteer/${id}`,
+>>>>>>> main
 
         {
           headers: {
@@ -191,15 +198,19 @@ function Map() {
       );
     getRequestOwner(requestOwner);
 
-    // checkActiveRequest(requestId);
     return res;
   };
   const getRequestOwner = async (id) => {
     if (id) {
       const token = JSON.parse(localStorage.getItem("token"));
+      const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
       let res = await axios
+<<<<<<< HEAD
         .get(`https://helping-neighbours.herokuapp.com/users/${id}/`, {
+=======
+        .get(`http://127.0.0.1:3000/users/${id}`, {
+>>>>>>> main
           headers: {
             "X-CSRF-Token": csrf,
             Authorization: `Basic ${token}`,
@@ -207,9 +218,6 @@ function Map() {
         })
         .then(
           (response) => {
-            //  console.log(response.data)
-            // let ownerRec = Object.values(response.data);
-            // console.log(ownerRec[0])
             setChatReceiverId(response.data.id);
             setReqOwnerFirstName(response.data.first_name);
           },
@@ -242,16 +250,11 @@ function Map() {
           zoom={6}
           className="w-full col-span-2"
         >
-          {/* <LayersControl position="topright" className="sidebar"></LayersControl> */}
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {/* <Marker position={[6.67107, 3.25564]}>
-              <Popup>
-                <p>hello</p>
-              </Popup>
-            </Marker>; */}
+
           {allRequest.map((items, index) => {
             const {
               id,
@@ -263,7 +266,7 @@ function Map() {
               fulfilled,
               user_id,
             } = items;
-            // console.log(items); //TODO fix reload
+
             if (fulfilled === false) {
               return (
                 <Marker
@@ -275,7 +278,6 @@ function Map() {
 
                       setRequestOwner(user_id);
                       setReqDescription(description);
-                      //console.log("clicked", id);
                     },
                   }}
                   position={[lat, lng]}
@@ -289,15 +291,7 @@ function Map() {
                         </h1>
                         <p>{description}</p>
                         <p>{request_type}</p>
-                        <div className="text-right">
-                          {renderButton()}
-                          {/* <button
-                        onClick={onVolunteerClick}
-                        className="bg-blue-500 px-6 py-3 text-white outline-none"
-                      >
-                        Volunteer
-                      </button> */}
-                        </div>
+                        <div className="text-right">{renderButton()}</div>
                       </div>
                     </Popup>
                   )}

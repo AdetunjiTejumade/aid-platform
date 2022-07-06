@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   default_url_options :host => "helping-neighbours.herokuapp.com"
   root 'pages#index'
-
+  # default_url_options :host => "helping-neighboors.herokuapp.com"
   resources :conversations
 
 
@@ -40,5 +40,7 @@ Rails.application.routes.draw do
   match '/logout', to: 'pages#index', via:[:get]
   match '/signup', to: 'pages#index', via:[:get]
   match '/login', to: 'pages#index', via:[:get]
+  match '/rooms/:id', to: 'pages#index', via:[:get]
+  # match '/login', to: 'pages#index', via:[:get]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

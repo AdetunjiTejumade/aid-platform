@@ -1,36 +1,10 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-  useLayoutEffect,
-} from "react";
+import React, { useState, useContext, useRef, useLayoutEffect } from "react";
 import {
-  UserLatContext,
-  UserLngContext,
   AllRequestContext,
   UserIdContext,
-  RequestOwnerContext,
-  ReqOwnerFirstNameContext,
-  SelectedReqDescContext,
-  AllRoomContext,
-  RequestOwnerIdContext,
-  ChatRoomIdContext,
   ErrorContext,
-  PannedMapContext,
-  RequestFormContext,
-  SelectedRequestContext,
-  CurrentVolunteerContext,
 } from "../components/contexts/ContextFile";
 
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  LayersControl,
-} from "react-leaflet";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -76,10 +50,15 @@ function RequestForm() {
   };
 
   const token = JSON.parse(localStorage.getItem("token"));
+  const csrf = document.querySelector('meta[name="csrf-token"]').content;
   const sendRequest = async (params) => {
     setLoading(true);
     let res = axios
+<<<<<<< HEAD
       .post("https://helping-neighbours.herokuapp.com/requests/", params, {
+=======
+      .post("http://127.0.0.1:3000/requests", params, {
+>>>>>>> main
         headers: {
           "X-CSRF-Token": csrf,
           Authorization: `Basic ${token}`,
@@ -124,13 +103,13 @@ function RequestForm() {
   //41,aina aladi street,Alagbado,lagos,nigeria We need volunteers to help us in cleaning the community center
   const onSubmit = () => {
     const getCoordinates = () => {
-      const url = `http://api.positionstack.com/v1/forward?access_key=699a6449c786b9542657783c908f666a&query=${address}`;
+      // const url = `http://api.positionstack.com/v1/forward?access_key=699a6449c786b9542657783c908f666a&query=${address}`;
+      const url = `https://api.opencagedata.com/geocode/v1/json?key=4d0dbb0e5630425db93445f959182b5a&q=${address}`;
       axios
         .get(url)
         .then((result) => {
-          setLat((prev) => result.data.data[0].latitude);
-          setLng((prev) => result.data.data[0].longitude);
-          console.log(result.data.data[0].latitude);
+          setLat((prev) => result.data.results[0].geometry.lat);
+          setLng((prev) => result.data.results[0].geometry.lng);
         })
         .catch((err) => {
           console.log(err);
@@ -145,7 +124,10 @@ function RequestForm() {
           <h1 className="font-bold text-5xl text-white">Request Help</h1>
         </header>
 
-        <form className="pt-20 px-4 md:px-20" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="pt-20 px-12 md:px-20"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
             <label className=" block text-2xl ">
               Title{" "}
@@ -163,6 +145,9 @@ function RequestForm() {
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setTitle(e.target.value)}
             />
+            {errors.title && (
+              <span className="text-red-600">This field is required</span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -175,13 +160,19 @@ function RequestForm() {
             <textarea
               name="description"
               ref={register({
-                required: true,
-                maxLength: 300,
+                required: "Decription cannot be empty",
+                maxLength: {
+                  value: 300,
+                  message: "Decription cannot be more than 300 charaters",
+                },
               })}
               placeholder="Describe your request"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setDescription(e.target.value)}
             />
+            {errors.description && (
+              <span className="text-red-600">{errors.description.message}</span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -194,13 +185,19 @@ function RequestForm() {
             <textarea
               name="address"
               ref={register({
-                required: true,
-                maxLength: 300,
+                required: "Address cannot be empty",
+                maxLength: {
+                  value: 300,
+                  message: "Decription cannot be more than 300 charaters",
+                },
               })}
               placeholder="Your address"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={(e) => setAddress(e.target.value)}
             />
+            {errors.address && (
+              <span className="text-red-600">{errors.address.message}</span>
+            )}
           </div>
 
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -222,6 +219,9 @@ function RequestForm() {
               <option value="material_need">Material needs</option>
               {/* <option value="As mentioned above">As mentioned above</option> */}
             </select>
+            {errors.request_type && (
+              <span className="text-red-600">Select a request type</span>
+            )}
           </div>
 
           <div className="mt-14 mb-12 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">

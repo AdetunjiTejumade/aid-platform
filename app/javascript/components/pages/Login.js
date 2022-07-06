@@ -69,7 +69,10 @@ function Login() {
         <header className="bg-blue-500 px-12 h-36 grid content-center">
           <h1 className="font-bold text-5xl text-white">Login</h1>
         </header>
-        <form className="pt-20 px-20" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="pt-20 px-12 md:px-20"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="mt-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
             <label className=" block text-2xl ">
               E-mail{" "}
@@ -81,12 +84,15 @@ function Login() {
               name="email"
               type="email"
               ref={register({
-                required: true,
+                required: "Email cannot be empty",
               })}
               placeholder="Enter your email address"
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={handleEmail}
             />
+            {errors.email && (
+              <span className="text-red-600">Email cannot be empty</span>
+            )}
           </div>
 
           <div className="mt-14 mb-14 group opacity-50 hover:opacity-100 text-gray-400 focus-within:opacity-100 focus-within:text-blue-700">
@@ -99,15 +105,22 @@ function Login() {
             <input
               name="password"
               type="password"
+              placeholder="Enter password"
               ref={register({
-                required: true,
+                required: "You must specify a password",
+                minLength: {
+                  value: 8,
+                  message: "Password must have at least 8 characters",
+                },
               })}
               className="mt-4 py-4 border-t-0 border-l-0 border-r-0 border-2 border-solid border-gray-300 outline-none w-full focus:border-blue-600 focus:opacity-75 border-opacity-0 group-hover:border-opacity-75"
               onChange={handlePassword}
             />
           </div>
+          {errors.password && (
+            <span className="text-red-600">{errors.password.message}</span>
+          )}
           {error && <span className="form-error">{error}</span>}
-
           <button
             type="submit"
             disabled={loading}
@@ -115,10 +128,15 @@ function Login() {
           >
             {loading ? "Loading..." : "Login"}
           </button>
+          <div className="">
+            <p className="">
+              Don't own an account? <Link to="/signup">Sign up</Link>
+            </p>
+          </div>
         </form>
       </div>
       <>
-              <Footer />
+        <Footer />
       </>
     </>
   );

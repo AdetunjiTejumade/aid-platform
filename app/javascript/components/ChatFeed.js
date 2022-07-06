@@ -1,32 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class ChatFeed extends Component {
   componentDidUpdate() {
     let messageDiv = document.getElementById("messages");
     messageDiv.scrollToTop = messageDiv.scrollHeight;
   }
-
   displayMessages = (messages) => {
     return messages.map((message) => {
-     // const avatar = this.whichAvatar(message);
       return (
         <ChatMessage
           key={message.id}
           message={message}
-          //avatar={avatar}
           currentUser={this.props.currentUser}
         />
       );
     });
   };
-
-//   whichAvatar = (message) => {
-//     const user = this.props.room.users.data.find(
-//       (user) => parseInt(user.id) === message.user_id
-//     );
-//     return user.attributes.avatar_url;
-//   };
-
   render() {
     return (
       <div id="chat-feed">
@@ -43,4 +32,4 @@ class ChatFeed extends Component {
   }
 }
 
-export default ChatFeed
+export default ChatFeed;

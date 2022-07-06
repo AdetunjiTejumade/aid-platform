@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
-import Button from "@material-ui/core/Button";
 import { UserIdContext } from "../components/contexts/ContextFile";
 import axios from "axios";
 import MenuList from "./MenuList";
@@ -17,6 +15,7 @@ export default function LongMenu() {
   // request greater that 24hrs, are not fulfilled and have less than 5 volunteers
   const getAllRequestToRepublish = async () => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const csrf = document.querySelector('meta[name="csrf-token"]').content;
 
     let res = await axios
       .get("https://helping-neighbours.herokuapp.com/republish/", {
@@ -25,21 +24,11 @@ export default function LongMenu() {
           Authorization: `Basic ${token}`,
         },
       })
-      .then(
-        (response) => {
-          //   console.log(response.data);
-          let uniqueReq = response.data.filter(
-            (item) => item.user_id === userId
-          );
-          // console.log(uniqueReq);
-
-          setRequestToRepublish(uniqueReq);
-          return uniqueReq;
-        },
-        (error) => {
-          // console.log(error);
-        }
-      );
+      .then((response) => {
+        let uniqueReq = response.data.filter((item) => item.user_id === userId);
+        setRequestToRepublish(uniqueReq);
+        return uniqueReq;
+      });
 
     return res;
   };
@@ -63,7 +52,7 @@ export default function LongMenu() {
   return (
     <>
       <p
-        className="pr-5 block md:inline uppercase"
+        className="pr-5 block md:inline uppercase my-3 md:my-0 cursor-pointer"
         aria-label="more"
         aria-controls="long-menu"
         aria-haspopup="true"
